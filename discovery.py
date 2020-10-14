@@ -1,20 +1,24 @@
 from dnstwist import dnstwist
 from httprobe import probe
-
+import cert_search
 import pandas
 
-def main(domains):
-    
+
+def discover(domains):
+
     dnstwist_results = dnstwist(domains)
-    
-    # Extract domains from dnstwist results and probe for running http/https services
+
+    # Probe for running http/https services on domains from dnstwist
     probe_results = probe(
-        [panda_row['domain-name'] for panda_row in dnstwist_results.iloc]
+        list(dnstwist_results['domain-name'])
     )
 
     data = dnstwist_results.merge(probe_results, on='domain-name', how='left')
 
-    return data
+    certs = cert_search.search(list(data['domain-name']))
+
+    return data, certs
+
 
 if __name__ == "__main__":
-    main(['bell.ca', 'support.bell.ca', 'virginmobile.com'])
+    data, certs = discover(['bell.ca', 'support.bell.ca', 'virginmobile.com'])
