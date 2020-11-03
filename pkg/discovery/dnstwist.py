@@ -22,9 +22,9 @@ def dnstwist(whitelist):
                 'dnstwist',
                 '-r', '-w', '-g', '--ssdeep', '-m',
                 '-f', 'csv',
-                '--tld', './Dictionaries/english.dict',
-                '--tld', './Dictionaries/french.dict',
-                '--tld', './Dictionaries/common_tlds.dict',
+                '--tld', './tld/english.dict',
+                '--tld', './tld/french.dict',
+                '--tld', './tld/common_tlds.dict',
                 domain
             ],
             stdout=PIPE

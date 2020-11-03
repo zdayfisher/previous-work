@@ -1,0 +1,3 @@
+dnstwist==20200916
+pandas==1.1.2
+crtsh==0.2.0
