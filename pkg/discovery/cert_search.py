@@ -2,6 +2,7 @@ from crtsh import crtshAPI as crt
 import re
 import pandas
 from datetime import date, datetime
+from tqdm import tqdm
 
 
 def _issuer_regex(issuer_name_string):
@@ -35,8 +36,8 @@ def search(domains):
 
     result_index = 0
 
-    for domain in domains:
-        certs = crt().search(domain, wildcard=False, expired=False)
+    for domain in tqdm(domains, desc='Searching for domain certificates', unit='domains'):
+        certs = crt().search(domain, wildcard=True, expired=False)
 
         if isinstance(certs, type(None)):
             continue
