@@ -14,7 +14,8 @@ setup(
     install_requires=[
         'pandas',
         'crtsh',
-        'dnstwist'
+        'dnstwist',
+        'tqdm'
     ],
     include_package_data=True
 )

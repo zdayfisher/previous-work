@@ -1,3 +1,4 @@
-dnstwist==20200916
+dnstwist==20201022
 pandas==1.1.2
 crtsh==0.2.0
+tqdm==4.51.0
