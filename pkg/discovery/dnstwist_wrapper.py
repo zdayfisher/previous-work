@@ -208,9 +208,8 @@ def process_existing_domains(original_domain, domains=[], thread_count=10):
                 domains[i][k] = domains[i][k][:1]
 
     
-    df_results = pandas.read_csv(
-        dnstwist_module.create_csv(domains),
-        sep=','
+    csv_data = StringIO(
+        dnstwist_module.create_csv(domains)
     )
 
-    return df_results
+    return pandas.read_csv(csv_data, sep=',')
