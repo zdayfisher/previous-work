@@ -4,10 +4,10 @@ import pandas
 
 def probe(domains):
     """
-    Finds if a domain has http and/or https services running.
+    Finds if domains have http or https services running.
 
-    Returns a DataFrame of domain name, http service running,
-    and https service running.
+    Returns a DataFrame of domain name (string),
+    http service running (bool), and https service running (bool).
     """
     print('Probing domains for running http/https services...')
 
@@ -36,3 +36,24 @@ def probe(domains):
         ]
 
     return result_dataframe
+
+
+def generate_URL_from_results(probe_results_dataframe):
+    """
+    Generates URL strings from the pandas dataframe with http/https
+    if the service is active according to httprobe.
+
+    Returns a list of URLs.
+    """
+    urls = []
+
+    for i in range(len(probe_results_dataframe)):
+        domain = probe_results_dataframe.loc[i]['domain-name']
+
+        if probe_results_dataframe.loc[i]['http-active']:
+            urls.append('http://' + domain)
+        
+        if probe_results_dataframe.loc[i]['https-active']:
+            urls.append('https://' + domain)
+    
+    return urls
