@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install python3 python3-pip curl git -y
 # Copy project content to /opt folder
 #COPY . /opt/project...
 
-# Install DNS
+# Install DNSTwist
 RUN pip3 install dnstwist DNSPython whois
 
 # Install Golang
