@@ -1,6 +1,6 @@
-from dnstwist import dnstwist
-from httprobe import probe
-import cert_search
+from .dnstwist_wrapper import dnstwist
+from .httprobe_wrapper import probe
+from . import cert_search
 import pandas
 
 
