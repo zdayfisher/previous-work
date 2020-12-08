@@ -1,1 +1,4 @@
-include pkg/discovery/tld/*
+include pkg/discovery/tld/abused_tlds.dict
+include pkg/discovery/tld/french.dict
+include pkg/discovery/tld/english.dict
+include pkg/discovery/tld/common_tlds.dict

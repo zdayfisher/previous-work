@@ -1,11 +1,11 @@
-from .dnstwist_wrapper import dnstwist
 from .httprobe_wrapper import probe
 from . import cert_search
+from . import dnstwist_wrapper
 import pandas
 
 
-def discover(domains, keywords = []):
-    '''
+def discover(domains, keywords = [], french_tld=False, english_tld=False, common_tld=False):
+    """
     Discover possible fishing domains based on a given list of whitelisted
     domain names and a list of keywords.
 
@@ -16,21 +16,44 @@ def discover(domains, keywords = []):
 
     returns a pandas DataFrame with information found about each generated
     possible fishing domain.
-    '''
-    dnstwist_results = dnstwist(domains, keywords)
+    """
+
+    # Fuzz domains based on the domain list, keyword list, and TLD specifications provided
+    dnstwist_generation_results = dnstwist_wrapper.dnstwist(
+        domains,
+        keywords,
+        french_tld=french_tld,
+        english_tld=english_tld,
+        common_tld=common_tld
+    )
+
+    # Get certficate information of domains similar to provided domains
+    certs_df = cert_search._search_from_list_of_dictionaries(
+        dnstwist_generation_results
+    )
 
     # Probe for running http/https services on domains from dnstwist
     probe_results = probe(
-        list(dnstwist_results['domain-name'])
+        list(certs_df['domain-name'])
     )
 
-    data = dnstwist_results.merge(probe_results, on='domain-name', how='left')
+    # Combine results from certificate search and http/https probe searches
+    data = certs_df.join(probe_results.drop(columns=['domain-name']), how='left')
 
-    # Ger certficates of domains similar to provided domains
-    certs = cert_search.search(list(data['domain-name']))
+    # Verify obtain ssdeep scores, geoip info, whois info, MX info, etc.
+    dnstwist_data_results = []
+    for domain in list(set(data['original-domain'])):
+        dnstwist_data_results.append(
+            dnstwist_wrapper.process_existing_domains(
+                domain,
+                data.loc[data['original-domain'] == domain].to_dict('records')
+            )
+        )
 
-    return data, certs
+    data = pandas.concat(dnstwist_data_results).reset_index(drop=True)
+
+    return data
 
 
 if __name__ == "__main__":
-    data, certs = discover(['netflix.com'], ['support', 'help', 'login'])
+    data = discover(['netflix.com'], ['support', 'help', 'login'])

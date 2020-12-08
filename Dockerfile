@@ -11,7 +11,7 @@ RUN pip3 install dnstwist DNSPython whois
 
 # Install Golang
 RUN curl -O https://dl.google.com/go/go1.15.5.linux-amd64.tar.gz
-RUN tar xvf go1.15.5..linux-amd64.tar.gz && chown -R root:root ./go && mv go /usr/local && rm -rf go1.15.5.linux-amd64.tar.gz
+RUN tar xvf go1.15.5.linux-amd64.tar.gz && chown -R root:root ./go && mv go /usr/local && rm -rf go1.15.5.linux-amd64.tar.gz
 
 # Modify the PATH environment variable to include golang's path
 ENV PATH $PATH:/usr/local/go/bin
@@ -21,7 +21,7 @@ RUN git clone https://github.com/tomnomnom/httprobe.git
 RUN go build ./httprobe/main.go && mv main /bin/httprobe
 
 # Uninstall setup tools and unused packages
-RUN apt-get --purge remove curl git python3-pip -y && apt-get autoremove
+RUN apt-get --purge remove curl git python3-pip -y && apt-get autoremove -y
 
 # Install pkg as a python module
 #RUN pip3 install /opt/project
