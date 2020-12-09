@@ -32,7 +32,9 @@ def _search_from_list_of_dictionaries(list_of_dict):
 
     for dictionary in tqdm(list_of_dict, desc='Searching for domain certificates', unit='domains'):
         search_result_df = search(
-            dictionary['domain-name'], dictionary['original-domain']
+            dictionary['domain-name'],
+            dictionary['original-domain'],
+            drop_diplicates=False
         )
 
         search_result_df['fuzzer'] = [dictionary['fuzzer'] for i in range(search_result_df.shape[0])]
@@ -40,12 +42,12 @@ def _search_from_list_of_dictionaries(list_of_dict):
         result_dataframes.append(search_result_df)
     
     # Combine all result dataframes
-    concat_df = pandas.concat(result_dataframes).reset_index(drop=True)
+    concat_df = pandas.concat(result_dataframes).drop_duplicates().reset_index(drop=True)
 
     return concat_df
 
 
-def search(domain, original_domain=''):
+def search(domain, original_domain='N/A', drop_diplicates=True, include_expired=False):
     """
     Searches crt.sh for active certificates that exist for the provided
     domain and returns a DataFrame with certificate information.
@@ -65,7 +67,7 @@ def search(domain, original_domain=''):
 
     result_index = 0
 
-    certs = crt().search(domain, wildcard=True, expired=False)
+    certs = crt().search(domain, wildcard=True, expired=include_expired)
 
     if isinstance(certs, type(None)):
         return result_dataframe
@@ -98,6 +100,7 @@ def search(domain, original_domain=''):
                 result_index += 1
 
     # Remove duplicates and reset dataframe's index
-    result_dataframe = result_dataframe.drop_duplicates().reset_index(drop=True)
+    if drop_diplicates:
+        result_dataframe = result_dataframe.drop_duplicates().reset_index(drop=True)
 
     return result_dataframe
