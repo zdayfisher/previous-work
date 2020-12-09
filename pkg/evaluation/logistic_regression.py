@@ -1,5 +1,8 @@
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
+from sklearn.neural_network import MLPClassifier
+from sklearn import preprocessing
+from sklearn.preprocessing import OneHotEncoder
 import datetime
 import pandas as pd
 import numpy as np
@@ -7,6 +10,9 @@ import tldextract
 
 
 def is_ip(url):
+    '''
+    Check if URL contains an IP address inside
+    '''
     s =  url.find('//')
     if s != -1 and len(url) >= s + 14:
         url = url[s+2:s+14]
@@ -14,29 +20,26 @@ def is_ip(url):
 
 def suspicious_characters(url):
     '''
-    Checking if domain name contains suspicious characters such as '@'
+    Check if domain name contains suspicious characters such as '@'
     '''
     return 1 if '@' in url else 0
 
 def use_http(url):
     '''
-    Checking if http:// is used instead of https://
+    Check if http:// is used instead of https://
     '''
     return 1 if 'http://' in url else 0
 
-def is_short_url(url):
+def redirects(url):
+    '''
+    Check if URL redirects you to another final URL
+    '''
     return False
 
-def train_model(X_train, y_train):
-    clf_lr = LogisticRegression(solver='lbfgs', max_iter=1000, random_state=1).fit(X_train, y_train)
-    lr_train_predictions = clf_lr.predict(X_train)
-    return clf_lr
-
-def predict_results(clf_lr, X_test, y_test):
-    lr_test_predictions = clf_lr.predict(X_test)
-    return lr_test_predictions
-
 def process_input_data():
+    '''
+    Returns the dataframe containing information about benign and malicious URLs
+    '''
     df = pd.read_csv("pkg/evaluation/training_data/data-benign.csv")
     df['phishing'] = df.apply(lambda row: 0, axis = 1)
 
@@ -84,7 +87,7 @@ def precision(actual_tags, predictions, class_of_interest):
 def accuracy(actual_tags, predictions):
     '''
     Calculates the average number of correct predictions.
-        - actualTags: The ground truth
+        - actual_tags: The ground truth
         - predictions: What the model predicts
     '''
     total_found = 0
@@ -93,15 +96,53 @@ def accuracy(actual_tags, predictions):
             total_found += 1
     return total_found / len(predictions)
 
-def train_and_evaluate():
+def train_and_evaluate_lr():
+    '''
+    Returns the accuracy, precision and recall of linear regression model
+    '''
     X = process_input_data()
+    ohe = OneHotEncoder(sparse=False, handle_unknown='ignore')
+
     y = X.pop('phishing').values
-    feature_set = {'insecure_protocol', 'is_ip', 'suspicious_chars', 'domain_length'}
+    feature_set = {'insecure_protocol', 'is_ip', 'suspicious_chars', 'domain_length', 'suffix'}
     X = X[feature_set].copy()
     X_train, X_val, y_train, y_val = train_test_split(X, y, test_size = 0.2, random_state=2)
 
-    clf_lr = LogisticRegression(solver='lbfgs', max_iter=1000, random_state=1).fit(X_train, y_train)
-    lr_train_predictions = clf_lr.predict(X_train)
-    print(accuracy(y_train, lr_train_predictions))
+    ohe.fit(X_train)
+    X_train_encoded = ohe.transform(X_train)
+    X_val_encoded = ohe.transform(X_val)
+
+    clf_lr = LogisticRegression(solver='lbfgs', max_iter=1000, random_state=1).fit(X_train_encoded, y_train)
+    ##lr_train_predictions = clf_lr.predict(X_train_encoded)
     
-train_and_evaluate()
+    lr_val_predictions = clf_lr.predict(X_val_encoded)
+    return accuracy(y_val, lr_val_predictions), precision(y_val, lr_val_predictions, 1), recall(y_val, lr_val_predictions, 1)
+
+
+def train_and_evaluate_mlp():
+    '''
+    Returns the accuracy, precision and recall of multilayer perceptron model
+    '''
+    X = process_input_data()
+    ohe = OneHotEncoder(sparse=False, handle_unknown='ignore')
+   
+    y = X.pop('phishing').values
+    
+    feature_set = {'insecure_protocol', 'is_ip', 'suspicious_chars', 'domain_length', 'suffix'}
+    
+    X = X[feature_set].copy()
+    X_train, X_val, y_train, y_val = train_test_split(X, y, test_size = 0.2, random_state=2)
+
+    ohe.fit(X_train)
+    X_train_encoded = ohe.transform(X_train)
+    X_val_encoded = ohe.transform(X_val)
+
+    clf_mlp = MLPClassifier(solver='lbfgs', alpha=1e-4, hidden_layer_sizes=(150, 150), random_state=5, max_iter=120, learning_rate_init=0.01, warm_start=True)
+    clf_mlp.fit(X_train_encoded, y_train)
+    #mlp_train_predictions = clf_mlp.predict(X_train_encoded)
+
+    mlp_val_predictions = clf_mlp.predict(X_val_encoded)
+    return accuracy(y_val, mlp_val_predictions), precision(y_val, mlp_val_predictions, 1), recall(y_val, mlp_val_predictions, 1)
+
+print(train_and_evaluate_mlp())
+print(train_and_evaluate_lr())
