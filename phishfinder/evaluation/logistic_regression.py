@@ -8,6 +8,8 @@ import pandas as pd
 import numpy as np
 import tldextract
 
+from os.path import dirname, join as pjoin
+
 
 def is_ip(url):
     '''
@@ -40,10 +42,10 @@ def process_input_data():
     '''
     Returns the dataframe containing information about benign and malicious URLs
     '''
-    df = pd.read_csv("pkg/evaluation/training_data/data-benign.csv")
+    df = pd.read_csv(pjoin(dirname(__file__),"training_data/data-benign.csv"))
     df['phishing'] = df.apply(lambda row: 0, axis = 1)
 
-    df_malicious = pd.read_csv("pkg/evaluation/training_data/data-malicious.csv")
+    df_malicious = pd.read_csv(pjoin(dirname(__file__),"training_data/data-malicious.csv"))
     df_malicious['phishing'] = df_malicious.apply(lambda row: 1, axis = 1)
 
     df = df.append(df_malicious, ignore_index = True)
@@ -144,5 +146,6 @@ def train_and_evaluate_mlp():
     mlp_val_predictions = clf_mlp.predict(X_val_encoded)
     return accuracy(y_val, mlp_val_predictions), precision(y_val, mlp_val_predictions, 1), recall(y_val, mlp_val_predictions, 1)
 
-print(train_and_evaluate_mlp())
-print(train_and_evaluate_lr())
+if __name__ == '__main__':
+    print(train_and_evaluate_mlp())
+    print(train_and_evaluate_lr())

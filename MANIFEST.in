@@ -2,3 +2,6 @@ include phishfinder/discovery/tld/abused_tlds.dict
 include phishfinder/discovery/tld/french.dict
 include phishfinder/discovery/tld/english.dict
 include phishfinder/discovery/tld/common_tlds.dict
+
+include phishfinder/evaluation/training_data/data-benign.csv
+include phishfinder/evaluation/training_data/data-malicious.csv
