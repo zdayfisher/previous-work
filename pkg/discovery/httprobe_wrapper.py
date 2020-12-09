@@ -77,8 +77,8 @@ def probe(domains):
     for i, domain in enumerate(domains):
         result_dataframe.loc[i] = [
             domain,
-            f'http://{domain}' in results,
-            f'https://{domain}' in results
+            1 if f'http://{domain}' in results else 0,
+            1 if f'https://{domain}' in results else 0
         ]
 
     return result_dataframe
