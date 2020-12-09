@@ -6,66 +6,114 @@ import ssdeep
 from subprocess import run, PIPE
 from io import StringIO
 from os import path, remove
-
+from tqdm import tqdm
+from os.path import dirname, join as pjoin
 
 DNSTWIST_USER_AGENT = 'Mozilla/5.0 dnstwist/20201022'
 
+def _parse_tld_file(filename):
+    """
+    Gets the contents of a top-level domain (TLD) dictionary file
+    and returns a list of its TLDs.
+    """
 
-def dnstwist(whitelist, keywords = []):
-    '''
+    with open(pjoin(dirname(__file__), f'tld/{filename}'), 'r') as f:
+        file_content = f.read()
+
+    # Removes comments found within the 
+    return [tld for tld in file_content.split('\n') if tld.isalpha()]
+
+
+def _create_csv(domains):
+    """
+    Creates a csv string from the list of dictionaries containing 
+    domain information.
+    """
+    keys = [
+        'original-domain',
+        'domain-name',
+        'issuer-name',
+        'issuer-country',
+        'cert-start',
+        'cert-end',
+        'cert-duration',
+        'fuzzer',
+        'http-active',
+        'https-active',
+        'dns-ns',
+        'dns-a',
+        'dns-mx',
+        'geoip-country',
+        'banner-http',
+        'ssdeep-score',
+        'whois-created',
+        'whois-registrar'
+    ]
+
+    if domains:
+        csv = [','.join(keys)]
+    else:
+        csv = ''
+
+    for domain in domains:
+        domain_row = []
+        for key in keys:
+            if isinstance(domain[key], list):
+                domain_row.append(
+                    ';'.join(domain.get(key, []))
+                )
+            else:
+                domain_row.append(str(domain.get(key, '')).replace(',', ''))
+        
+        csv.append(
+            ','.join(domain_row)
+        )
+
+    return '\n'.join(csv)
+
+
+def dnstwist(whitelist, keywords = [], french_tld=False, english_tld=False, common_tld=False):
+    """
     Generates possible phishing domain names based on the
-    provided whitelist and keywords, and verifies IP's, geolocations,
-    name service, site similarity to the original domain, etc.
+    provided whitelist and keywords.
 
-    Returns a DataFrame of:
-        fuzzer, domain-name, dns-a, dns-aaaa, dns-mx,
-        dns-ns, geoip-country, whois-created, ssdeep-score
-    '''
-    dnstwist_result_pandas = []
+    Returns a list of generated domains
+    """
 
-    if path.exists('keyword_dnstwist.txt'):
-        remove('dnstwist_keywords.txt')
+    # Use abused TLDs by default
+    tld_list = _parse_tld_file('abused_tlds.dict')
 
-    with open(f'dnstwist_keywords.txt', 'w') as f:
-        f.write('\n'.join(keywords))
+    if french_tld:
+        tld_list += _parse_tld_file('french.dict')
 
-    for domain in whitelist:
-        print(f'Generating possible domains for {domain}...')
-        dnstwist_proc = run(
-            [
-                'dnstwist',
-                '-r', '-g', '--ssdeep', '-m',
-                '-f', 'csv',
-                '--tld', './tld/english.dict',
-                '--tld', './tld/french.dict',
-                '--tld', './tld/common_tlds.dict',
-                '-d', 'dnstwist_keywords.txt',
-                domain
-            ],
-            stdout=PIPE,
-            stderr=PIPE
-        )
-
-        decoded_stdout = dnstwist_proc.stdout.decode()
-
-        stdout_data = StringIO(decoded_stdout)
-
-        dnstwist_result_pandas.append(
-            pandas.read_csv(stdout_data, sep=',')
-        )
+    if english_tld:
+        tld_list += _parse_tld_file('english.dict')
     
-    remove('dnstwist_keywords.txt')
+    if common_tld:
+        tld_list += _parse_tld_file('common_tlds.dict')
 
-    # Combine pandas from each domain and remove duplicates.
-    unique_result_dataframe = pandas.concat(dnstwist_result_pandas)\
-                                    .drop_duplicates()\
-                                    .reset_index(drop=True)
+    dnstwist_domains = []
 
-    return unique_result_dataframe
+    for domain in tqdm(whitelist, desc='Fuzzing domains', unit='domains'):
+        url = dnstwist_module.UrlParser(domain)
+
+        fuzzer = dnstwist_module.DomainFuzz(
+            url.domain, dictionary=keywords, tld_dictionary=tld_list
+        )
+        
+        fuzzer.generate()
+
+        # Add original domain to dictionaries
+        for result in fuzzer.domains:
+            result['original-domain'] = domain
+        
+        dnstwist_domains += fuzzer.domains
+
+    return dnstwist_domains
 
 
 def process_existing_domains(original_domain, domains=[], thread_count=10):
-    '''
+    """
     Modified code from dnstwist.main
     (https://github.com/elceef/dnstwist/blob/master/dnstwist.py)
     which processes domains through ssdeep, whois, mx verification,
@@ -77,7 +125,7 @@ def process_existing_domains(original_domain, domains=[], thread_count=10):
     domains must be a list of dictionaries of format
     {'fuzzer': 'value', 'domain-name': 'domain'}. This is a requirment for
     dnstwist compatability.
-    '''
+    """
     def _exit(code):
         print(dnstwist_module.FG_RST + dnstwist_module.ST_RST, end='')
         dnstwist_module.sys.exit(code)
@@ -113,7 +161,11 @@ def process_existing_domains(original_domain, domains=[], thread_count=10):
     request_url = url.full_uri()
     p_cli('Fetching content from: %s ' % request_url)
     try:
-        req = dnstwist_module.requests.get(request_url, timeout=dnstwist_module.REQUEST_TIMEOUT_HTTP, headers={'User-Agent': DNSTWIST_USER_AGENT})
+        req = dnstwist_module.requests.get(
+            request_url,
+            timeout=dnstwist_module.REQUEST_TIMEOUT_HTTP,
+            headers={'User-Agent': DNSTWIST_USER_AGENT}
+        )
     except dnstwist_module.requests.exceptions.ConnectionError:
         p_cli('Connection error\n')
         _exit(1)
@@ -186,9 +238,8 @@ def process_existing_domains(original_domain, domains=[], thread_count=10):
     domains[:] = [x for x in domains if len(x) > 2]
 
     p_cli('Querying WHOIS servers ')
-    for domain in domains:
+    for domain in tqdm(domains, desc='Querying WHOIS servers', unit='domain'):
         if len(domain) > 2:
-            p_cli('·')
             try:
                 whoisq = dnstwist_module.whois.query(domain['domain-name'])
             except Exception as e:
@@ -198,9 +249,6 @@ def process_existing_domains(original_domain, domains=[], thread_count=10):
                     domain['whois-created'] = str(whoisq.creation_date).split(' ')[0]
                 if whoisq and whoisq.registrar:
                     domain['whois-registrar'] = str(whoisq.registrar)
-    p_cli(' Done\n')
-
-    p_cli('\n')
 
     for i in range(len(domains)):
         for k in ['dns-ns', 'dns-a', 'dns-aaaa', 'dns-mx']:
@@ -209,7 +257,7 @@ def process_existing_domains(original_domain, domains=[], thread_count=10):
 
     
     csv_data = StringIO(
-        dnstwist_module.create_csv(domains)
+        _create_csv(domains)
     )
 
     return pandas.read_csv(csv_data, sep=',')

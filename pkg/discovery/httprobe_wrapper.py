@@ -1,5 +1,43 @@
 from subprocess import run, Popen, PIPE
 import pandas
+from subprocess import run, PIPE
+from tqdm import tqdm
+
+
+def _create_batch_strings(domains):
+    """
+    Takes a list of domains and generates a list of strings
+    containing several domains which have a length no greater
+    than the system's max argument length.
+    """
+    batches = []
+    current_batch = []
+    current_batch_char_length = 0
+
+    argument_limit = int(
+        run(
+            ['getconf', 'ARG_MAX'],
+            stdout=PIPE
+        ).stdout.decode('utf-8')
+    )
+
+    for domain in tqdm(domains, desc='Creating batches of domains', unit='domains'):
+        if len(domain) + current_batch_char_length < 25000:
+            current_batch.append(domain)
+            current_batch_char_length += len(domain)
+        else:
+            batches.append(current_batch)
+            current_batch_char_length = len(domain)
+            current_batch = [domain]
+        
+    if current_batch:
+        batches.append(current_batch)
+    
+    batch_strings = ['\n'.join(batch) for batch in batches]
+
+    print(f'{len(batch_strings)} batches created.')
+    
+    return batch_strings
 
 
 def probe(domains):
@@ -9,30 +47,38 @@ def probe(domains):
     Returns a DataFrame of domain name (string),
     http service running (bool), and https service running (bool).
     """
-    print('Probing domains for running http/https services...')
 
-    input_domains = "\n".join(domains)
+    input_strings = _create_batch_strings(domains)
+
+    results = []
 
     # cat temp file and pipe into httprobe
-    cat_proc = Popen(['echo', '-e', input_domains], stdout=PIPE)
-    probe_output = run(['httprobe'], stdin=cat_proc.stdout, stdout=PIPE).stdout
-    cat_proc.wait()
+    for input_domains in tqdm(input_strings, desc='Probing domains for http/https services', unit='batch'):
+        cat_proc = Popen(['echo', '-e', f'"{input_domains}"'], stdout=PIPE)
+        probe_output = run(['httprobe'], stdin=cat_proc.stdout, stdout=PIPE).stdout
+        cat_proc.wait()
 
-    stdout_data = probe_output.decode().split("\n")
+        stdout_data = probe_output.decode().split('\n')
 
-    # Removes empty string item at the end of the list if it occurs
-    if stdout_data[-1] == '':
-        stdout_data.pop()
+        # Removes empty string item at the end of the list if it occurs
+        if stdout_data[-1] == '':
+            stdout_data.pop()
+        
+        results += stdout_data
 
     result_dataframe = pandas.DataFrame(
-        columns=['domain-name', 'http-active', 'https-active']
+        columns=[
+            'domain-name',
+            'http-active',
+            'https-active'
+        ]
     )
 
     for i, domain in enumerate(domains):
         result_dataframe.loc[i] = [
             domain,
-            f'http://{domain}' in stdout_data,
-            f'https://{domain}' in stdout_data
+            1 if f'http://{domain}' in results else 0,
+            1 if f'https://{domain}' in results else 0
         ]
 
     return result_dataframe
