@@ -238,9 +238,8 @@ def process_existing_domains(original_domain, domains=[], thread_count=10):
     domains[:] = [x for x in domains if len(x) > 2]
 
     p_cli('Querying WHOIS servers ')
-    for domain in domains:
+    for domain in tqdm(domains, desc='Querying WHOIS servers', unit='domain'):
         if len(domain) > 2:
-            p_cli('·')
             try:
                 whoisq = dnstwist_module.whois.query(domain['domain-name'])
             except Exception as e:
@@ -250,9 +249,6 @@ def process_existing_domains(original_domain, domains=[], thread_count=10):
                     domain['whois-created'] = str(whoisq.creation_date).split(' ')[0]
                 if whoisq and whoisq.registrar:
                     domain['whois-registrar'] = str(whoisq.registrar)
-    p_cli(' Done\n')
-
-    p_cli('\n')
 
     for i in range(len(domains)):
         for k in ['dns-ns', 'dns-a', 'dns-aaaa', 'dns-mx']:
