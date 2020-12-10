@@ -3,5 +3,11 @@ include phishfinder/discovery/tld/french.dict
 include phishfinder/discovery/tld/english.dict
 include phishfinder/discovery/tld/common_tlds.dict
 
-include phishfinder/evaluation/training_data/data-benign.csv
-include phishfinder/evaluation/training_data/data-malicious.csv
+include phishfinder/evaluation/data/original_lists/data-benign.csv
+include phishfinder/evaluation/data/original_lists/data-malicious.csv
+
+include phishfinder/evaluation/data/sanitized_lists/benign.csv
+include phishfinder/evaluation/data/sanitized_lists/malicious.csv
+
+include phishfinder/evaluation/data/training_data/benign_certs.csv
+include phishfinder/evaluation/data/training_data/malicious_certs.csv

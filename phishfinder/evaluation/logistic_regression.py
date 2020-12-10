@@ -42,10 +42,10 @@ def process_input_data():
     '''
     Returns the dataframe containing information about benign and malicious URLs
     '''
-    df = pd.read_csv(pjoin(dirname(__file__),"training_data/data-benign.csv"))
+    df = pd.read_csv(pjoin(dirname(__file__), "data/original_lists/data-benign.csv"))
     df['phishing'] = df.apply(lambda row: 0, axis = 1)
 
-    df_malicious = pd.read_csv(pjoin(dirname(__file__),"training_data/data-malicious.csv"))
+    df_malicious = pd.read_csv(pjoin(dirname(__file__), "data/original_lists/data-malicious.csv"))
     df_malicious['phishing'] = df_malicious.apply(lambda row: 1, axis = 1)
 
     df = df.append(df_malicious, ignore_index = True)
