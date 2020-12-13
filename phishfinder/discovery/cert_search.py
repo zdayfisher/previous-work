@@ -11,6 +11,7 @@ information for the domain names that are generated.
 
 Non-Public Functions
 --------------------
+
 .. note:: Non-public functions are not part of this API documentation.
     More information about these functions can be found in the source code
     in the form of docstrings.
@@ -87,7 +88,7 @@ def search(domain, original_domain='N/A', drop_diplicates=True, include_expired=
 
     drop_duplicates: bool
         Drop duplicate rows in the results DataFrame if they exist.
-        
+
     include_expired: bool
         If set to true, expired certificates will not be retrieved from crt.sh.
     

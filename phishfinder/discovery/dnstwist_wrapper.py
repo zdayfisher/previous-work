@@ -16,6 +16,7 @@ and gather various informations using DNSTwist's own pipeline.
 
 Non-Public Functions
 --------------------
+
 .. note:: Non-public functions are not part of this API documentation.
     More information about these functions can be found in the source code
     in the form of docstrings.

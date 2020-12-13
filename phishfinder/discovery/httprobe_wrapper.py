@@ -11,6 +11,7 @@ HTTPs services on a given domain.
 
 Non-Public Functions
 --------------------
+
 .. note:: Non-public functions are not part of this API
     documentation. More information about these functions
     can be found in the source code in the functions' docstrings.
