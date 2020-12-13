@@ -1,3 +1,16 @@
+"""
+Main domain discovery module.
+
+This module provides the discover function which acts as a pipeline for
+the discovery module.
+
+Purpose
+-------
+Generate domain names and gather various informations relating to them
+including certificates, the presence of HTTP and HTTPS services, and 
+similarities between the original domain's webpage and the generated
+domains.
+"""
 from .httprobe_wrapper import probe
 from . import cert_search
 from . import dnstwist_wrapper
@@ -6,16 +19,38 @@ import pandas
 
 def discover(domains, keywords = [], french_tld=False, english_tld=False, common_tld=False):
     """
-    Discover possible fishing domains based on a given list of whitelisted
+    Discovers possible phishing domains based on a given list of whitelisted
     domain names and a list of keywords.
 
-    domains: list of domain names. E.g. ['netflix.com', 'paypal.com']
+    .. warning:: Each domain provided in the `domains` parameter list can generate thousands of fuzzied domains.
+        Using a large number of domains in this parameter can drastically increase the runtime of the pipeline as
+        each fuzzied domain will be processed (certificate search, HTTP/HTTPS probe, etc.).
 
-    keywords: list of keywords used to generate possible fishing domains.
-    E.g. ['support', 'login']
+        *It is not recommended to use a large number of domains for this parameter at one time.*
 
-    returns a pandas DataFrame with information found about each generated
-    possible fishing domain.
+    Parameters
+    ----------
+    domains: list
+        List of domain names. E.g. ['netflix.com', 'paypal.com']
+
+    keywords: list
+        List of keywords used to generate possible phishing domains.
+        E.g. ['support', 'login']
+
+    french_tld: bool
+        Include the top-level domains from the French TLD list.
+    
+    english_tld: bool
+        Include the top-level domains from the English TLD list.
+    
+    common_tld: bool
+        Include the most common top-level domains.
+
+    Returns
+    -------
+    Returns: pandas.DataFrame
+        Returns a pandas DataFrame with information found about each generated
+        possible phishing domain.
     """
 
     # Fuzz domains based on the domain list, keyword list, and TLD specifications provided
@@ -53,7 +88,3 @@ def discover(domains, keywords = [], french_tld=False, english_tld=False, common
     data = pandas.concat(dnstwist_data_results).reset_index(drop=True)
 
     return data
-
-
-if __name__ == "__main__":
-    data = discover(['netflix.com'], ['support', 'help', 'login'])

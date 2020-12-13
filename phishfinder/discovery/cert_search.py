@@ -1,3 +1,24 @@
+"""
+Domain certificate search module.
+
+This module provides several functions allowing to retrieve
+certificate information for domains from crt.sh.
+
+Purpose
+-------
+Provide the Discovery pipeline the ability to retrieve certificate
+information for the domain names that are generated.
+
+Non-Public Functions
+--------------------
+.. note:: Non-public functions are not part of this API documentation.
+    More information about these functions can be found in the source code
+    in the form of docstrings.
+
+- `_issuer_regex`: Extracts certificate issuer's information from a crt.sh result.
+- `_search_from_list_of_dictionaries`: Integration function to allow DNSTwist results to
+    be directly passed to this module for searches.
+"""
 from crtsh import crtshAPI as crt
 import re
 import pandas
@@ -27,6 +48,9 @@ def _search_from_list_of_dictionaries(list_of_dict):
     Searches for certificates from a list outputted from a 
     dnstwist domain name generation and returns a dataframe
     with the results.
+
+    Used by as an integration layer between DNSTwist's output
+    format (dictionary) and the public search function.
     """
     result_dataframes = []
 
@@ -49,10 +73,31 @@ def _search_from_list_of_dictionaries(list_of_dict):
 
 def search(domain, original_domain='N/A', drop_diplicates=True, include_expired=False):
     """
-    Searches crt.sh for active certificates that exist for the provided
-    domain and returns a DataFrame with certificate information.
-    """
+    Searches crt.sh for a domain's certificates.
+    
+    Parameters
+    ----------
+    domain: str
+        Domain name including the top-level domain used for the crt.sh query.
 
+    original_domain: str
+        Original domain used by DNSTwist's domain generation to generate the
+        `domain` parameter. Used to match certificate results to original
+        domains in the Discovery pipeline.
+
+    drop_duplicates: bool
+        Drop duplicate rows in the results DataFrame if they exist.
+        
+    include_expired: bool
+        If set to true, expired certificates will not be retrieved from crt.sh.
+    
+    Returns
+    -------
+    Returns: pandas.DataFrame
+        Returns a DataFrame containing original domain (if provided), domain name found
+        in a certificate, issuer name, issuer country, certificate start and end, and
+        certificate duration in days.
+    """
     result_dataframe = pandas.DataFrame(
         columns=[
             'original-domain',

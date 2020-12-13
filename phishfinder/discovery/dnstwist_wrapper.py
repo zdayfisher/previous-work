@@ -1,3 +1,29 @@
+"""
+Wrapper module for the DNSTwist tool.
+
+This module is a wrapper for the DNSTwist tool:
+[https://github.com/elceef/dnstwist](https://github.com/elceef/dnstwist).
+Some parts of the original tool were modified and incorporated into the
+`process_existing_domains` function.
+
+The current version of DNSTwist (20201022) does not provide
+any licensing information.
+
+Purpose
+-------
+Provide the Discovery pipeline with the ability to generate domains
+and gather various informations using DNSTwist's own pipeline.
+
+Non-Public Functions
+--------------------
+.. note:: Non-public functions are not part of this API documentation.
+    More information about these functions can be found in the source code
+    in the form of docstrings.
+
+- `_parse_tld_file`: Obtains the contents of a top-level domain dictionary file
+    used during domain generaton.
+- `_create_csv`: Converts the DNSTwist results into CSV format.
+"""
 import pandas
 import queue
 import dnstwist as dnstwist_module
@@ -27,7 +53,7 @@ def _parse_tld_file(filename):
 def _create_csv(domains):
     """
     Creates a csv string from the list of dictionaries containing 
-    domain information.
+    domain information from `process_existing_domains`.
     """
     keys = [
         'original-domain',
@@ -72,12 +98,32 @@ def _create_csv(domains):
     return '\n'.join(csv)
 
 
-def dnstwist(whitelist, keywords = [], french_tld=False, english_tld=False, common_tld=False):
+def dnstwist(original_domains, keywords = [], french_tld=False, english_tld=False, common_tld=False):
     """
-    Generates possible phishing domain names based on the
-    provided whitelist and keywords.
+    Generates possible phishing domain.
+    
+    Parameters
+    ----------
+    original_domains: list of str
+        List of domain names to be fuzzied to generate additional domains. E.g. ['netflix.com', 'paypal.com']
 
-    Returns a list of generated domains
+    keywords: list of str
+        List of keywords used to generate additional possible phishing domains. E.g. ['support', 'login']
+
+    french_tld: bool
+        Include the top-level domains from the French TLD list.
+    
+    english_tld: bool
+        Include the top-level domains from the English TLD list.
+    
+    common_tld: bool
+        Include the most common top-level domains.
+
+    Returns
+    -------
+    Returns: list of dictionaries
+        Returns a list of dictionaries containing generated domain names. Dictionaries include
+        the original domain used for generation, fuzzer used, and the generated domain name.
     """
 
     # Use abused TLDs by default
@@ -94,7 +140,7 @@ def dnstwist(whitelist, keywords = [], french_tld=False, english_tld=False, comm
 
     dnstwist_domains = []
 
-    for domain in tqdm(whitelist, desc='Fuzzing domains', unit='domains'):
+    for domain in tqdm(original_domains, desc='Fuzzing domains', unit='domains'):
         url = dnstwist_module.UrlParser(domain)
 
         fuzzer = dnstwist_module.DomainFuzz(
@@ -114,17 +160,35 @@ def dnstwist(whitelist, keywords = [], french_tld=False, english_tld=False, comm
 
 def process_existing_domains(original_domain, domains=[], thread_count=10):
     """
-    Modified code from dnstwist.main
-    (https://github.com/elceef/dnstwist/blob/master/dnstwist.py)
-    which processes domains through ssdeep, whois, mx verification,
-    and geoip verification.
+    Processes domains to obtain various informations.
 
-    original_domain must be the string of the domain used to generate the
-    fuzzied domains.
+    .. note:: This method is slightly modified section of code from
+        from [dnstwist.main](https://github.com/elceef/dnstwist/blob/master/dnstwist.py)
+        which processes domains through ssdeep, whois, mx verification,
+        and geoip verification.
 
-    domains must be a list of dictionaries of format
-    {'fuzzer': 'value', 'domain-name': 'domain'}. This is a requirment for
-    dnstwist compatability.
+    Parameters
+    ----------
+    original_domain: str
+        Domain name used to generate the fuzzied domains. This is utilized to
+        evaluate ssdeep scores on both the original domain's webpage and the
+        fuzzied domains.
+    
+    domains: list of dictionaries
+        List of dictionaries containing various information on the domain.
+        **Each dictionairy should contain at least the following keys with values**:
+        `'domain-name'` and `'fuzzer'`.
+    
+    thread_count: int
+        Number of dnstwist.DomainThread that can be utilized to process each
+        domain in the queue.
+    
+    Returns
+    -------
+    Returns: pandas.DataFrame
+        Returns a DataFrame containing all information provided as input in the
+        dictionaries in the `domains` parameter, in addition to the information
+        found (ssdeep score, geoip, etc.)
     """
     def _exit(code):
         print(dnstwist_module.FG_RST + dnstwist_module.ST_RST, end='')

@@ -1,3 +1,25 @@
+"""
+Wrapper module for the HTTProbe tool.
+
+This module is a wrapper for the HTTProbe tool:
+[https://github.com/tomnomnom/httprobe](https://github.com/tomnomnom/httprobe).
+
+Purpose
+-------
+Allows the Discovery pipeline to detect running HTTP and 
+HTTPs services on a given domain.
+
+Non-Public Functions
+--------------------
+.. note:: Non-public functions are not part of this API
+    documentation. More information about these functions
+    can be found in the source code in the functions' docstrings.
+
+- `_create_batch_strings`: Creates a string of domains with less than
+    25k characters in length to allow for HTTProbe to be ran without
+    argument length issues.
+"""
+
 from subprocess import run, Popen, PIPE
 import pandas
 from subprocess import run, PIPE
@@ -6,6 +28,21 @@ from tqdm import tqdm
 
 def _create_batch_strings(domains):
     """
+    Creates batch strings of domains.
+
+    Parameters
+    ----------
+    domains: list
+        List of domain names with top-level domain/
+
+    Returns
+    -------
+    Returns: list of str
+        Returns a list of strings not exceeding a length of 25,000
+        containing domain names separated by a newline character (\\n)
+    
+    Description
+    -----------
     Takes a list of domains and generates a list of strings
     containing several domains which have a length no greater
     than the system's max argument length.
@@ -44,8 +81,16 @@ def probe(domains):
     """
     Finds if domains have http or https services running.
 
-    Returns a DataFrame of domain name (string),
-    http service running (bool), and https service running (bool).
+    Parameters
+    ----------
+    domains: list of str
+        List of domain names
+    
+    Returns
+    -------
+    Return: pandas.DataFrame
+        Returns a DataFrame of domain name (string),
+        http service running (bool), and https service running (bool).
     """
 
     input_strings = _create_batch_strings(domains)
@@ -82,24 +127,3 @@ def probe(domains):
         ]
 
     return result_dataframe
-
-
-def generate_URL_from_results(probe_results_dataframe):
-    """
-    Generates URL strings from the pandas dataframe with http/https
-    if the service is active according to httprobe.
-
-    Returns a list of URLs.
-    """
-    urls = []
-
-    for i in range(len(probe_results_dataframe)):
-        domain = probe_results_dataframe.loc[i]['domain-name']
-
-        if probe_results_dataframe.loc[i]['http-active']:
-            urls.append('http://' + domain)
-        
-        if probe_results_dataframe.loc[i]['https-active']:
-            urls.append('https://' + domain)
-    
-    return urls
