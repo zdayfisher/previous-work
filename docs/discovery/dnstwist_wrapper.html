@@ -1,0 +1,710 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>phishfinder.discovery.dnstwist_wrapper API documentation</title>
+<meta name="description" content="Wrapper module for the DNSTwist tool …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>phishfinder.discovery.dnstwist_wrapper</code></h1>
+</header>
+<section id="section-intro">
+<p>Wrapper module for the DNSTwist tool.</p>
+<p>This module is a wrapper for the DNSTwist tool:
+<a href="https://github.com/elceef/dnstwist">https://github.com/elceef/dnstwist</a>.
+Some parts of the original tool were modified and incorporated into the
+<code><a title="phishfinder.discovery.dnstwist_wrapper.process_existing_domains" href="#phishfinder.discovery.dnstwist_wrapper.process_existing_domains">process_existing_domains()</a></code> function.</p>
+<p>The current version of DNSTwist (20201022) does not provide
+any licensing information.</p>
+<h2 id="purpose">Purpose</h2>
+<p>Provide the Discovery pipeline with the ability to generate domains
+and gather various informations using DNSTwist's own pipeline.</p>
+<div class="admonition note">
+<p class="admonition-title">Note:&ensp;Non-public functions are not part of this API documentation.</p>
+<p>More information about these functions can be found in the source code
+in the form of docstrings.</p>
+</div>
+<ul>
+<li><code>_parse_tld_file</code>: Obtains the contents of a top-level domain dictionary file
+used during domain generaton.</li>
+<li><code>_create_csv</code>: Converts the DNSTwist results into CSV format.</li>
+</ul>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+Wrapper module for the DNSTwist tool.
+
+This module is a wrapper for the DNSTwist tool:
+[https://github.com/elceef/dnstwist](https://github.com/elceef/dnstwist).
+Some parts of the original tool were modified and incorporated into the
+`process_existing_domains` function.
+
+The current version of DNSTwist (20201022) does not provide
+any licensing information.
+
+Purpose
+-------
+Provide the Discovery pipeline with the ability to generate domains
+and gather various informations using DNSTwist&#39;s own pipeline.
+
+Non-Public Functions
+--------------------
+.. note:: Non-public functions are not part of this API documentation.
+    More information about these functions can be found in the source code
+    in the form of docstrings.
+
+- `_parse_tld_file`: Obtains the contents of a top-level domain dictionary file
+    used during domain generaton.
+- `_create_csv`: Converts the DNSTwist results into CSV format.
+&#34;&#34;&#34;
+import pandas
+import queue
+import dnstwist as dnstwist_module
+import ssdeep
+
+from subprocess import run, PIPE
+from io import StringIO
+from os import path, remove
+from tqdm import tqdm
+from os.path import dirname, join as pjoin
+
+DNSTWIST_USER_AGENT = &#39;Mozilla/5.0 dnstwist/20201022&#39;
+
+def _parse_tld_file(filename):
+    &#34;&#34;&#34;
+    Gets the contents of a top-level domain (TLD) dictionary file
+    and returns a list of its TLDs.
+    &#34;&#34;&#34;
+
+    with open(pjoin(dirname(__file__), f&#39;tld/{filename}&#39;), &#39;r&#39;) as f:
+        file_content = f.read()
+
+    # Removes comments found within the 
+    return [tld for tld in file_content.split(&#39;\n&#39;) if tld.isalpha()]
+
+
+def _create_csv(domains):
+    &#34;&#34;&#34;
+    Creates a csv string from the list of dictionaries containing 
+    domain information from `process_existing_domains`.
+    &#34;&#34;&#34;
+    keys = [
+        &#39;original-domain&#39;,
+        &#39;domain-name&#39;,
+        &#39;issuer-name&#39;,
+        &#39;issuer-country&#39;,
+        &#39;cert-start&#39;,
+        &#39;cert-end&#39;,
+        &#39;cert-duration&#39;,
+        &#39;fuzzer&#39;,
+        &#39;http-active&#39;,
+        &#39;https-active&#39;,
+        &#39;dns-ns&#39;,
+        &#39;dns-a&#39;,
+        &#39;dns-mx&#39;,
+        &#39;geoip-country&#39;,
+        &#39;banner-http&#39;,
+        &#39;ssdeep-score&#39;,
+        &#39;whois-created&#39;,
+        &#39;whois-registrar&#39;
+    ]
+
+    if domains:
+        csv = [&#39;,&#39;.join(keys)]
+    else:
+        csv = &#39;&#39;
+
+    for domain in domains:
+        domain_row = []
+        for key in keys:
+            if isinstance(domain[key], list):
+                domain_row.append(
+                    &#39;;&#39;.join(domain.get(key, []))
+                )
+            else:
+                domain_row.append(str(domain.get(key, &#39;&#39;)).replace(&#39;,&#39;, &#39;&#39;))
+        
+        csv.append(
+            &#39;,&#39;.join(domain_row)
+        )
+
+    return &#39;\n&#39;.join(csv)
+
+
+def dnstwist(original_domains, keywords = [], french_tld=False, english_tld=False, common_tld=False):
+    &#34;&#34;&#34;
+    Generates possible phishing domain.
+    
+    Parameters
+    ----------
+    original_domains: list of str
+        List of domain names to be fuzzied to generate additional domains. E.g. [&#39;netflix.com&#39;, &#39;paypal.com&#39;]
+
+    keywords: list of str
+        List of keywords used to generate additional possible phishing domains. E.g. [&#39;support&#39;, &#39;login&#39;]
+
+    french_tld: bool
+        Include the top-level domains from the French TLD list.
+    
+    english_tld: bool
+        Include the top-level domains from the English TLD list.
+    
+    common_tld: bool
+        Include the most common top-level domains.
+
+    Returns
+    -------
+    Returns: list of dictionaries
+        Returns a list of dictionaries containing generated domain names. Dictionaries include
+        the original domain used for generation, fuzzer used, and the generated domain name.
+    &#34;&#34;&#34;
+
+    # Use abused TLDs by default
+    tld_list = _parse_tld_file(&#39;abused_tlds.dict&#39;)
+
+    if french_tld:
+        tld_list += _parse_tld_file(&#39;french.dict&#39;)
+
+    if english_tld:
+        tld_list += _parse_tld_file(&#39;english.dict&#39;)
+    
+    if common_tld:
+        tld_list += _parse_tld_file(&#39;common_tlds.dict&#39;)
+
+    dnstwist_domains = []
+
+    for domain in tqdm(original_domains, desc=&#39;Fuzzing domains&#39;, unit=&#39;domains&#39;):
+        url = dnstwist_module.UrlParser(domain)
+
+        fuzzer = dnstwist_module.DomainFuzz(
+            url.domain, dictionary=keywords, tld_dictionary=tld_list
+        )
+        
+        fuzzer.generate()
+
+        # Add original domain to dictionaries
+        for result in fuzzer.domains:
+            result[&#39;original-domain&#39;] = domain
+        
+        dnstwist_domains += fuzzer.domains
+
+    return dnstwist_domains
+
+
+def process_existing_domains(original_domain, domains=[], thread_count=10):
+    &#34;&#34;&#34;
+    Processes domains to obtain various informations.
+
+    .. note:: This method is slightly modified section of code from
+        from [dnstwist.main](https://github.com/elceef/dnstwist/blob/master/dnstwist.py)
+        which processes domains through ssdeep, whois, mx verification,
+        and geoip verification.
+
+    Parameters
+    ----------
+    original_domain: str
+        Domain name used to generate the fuzzied domains. This is utilized to
+        evaluate ssdeep scores on both the original domain&#39;s webpage and the
+        fuzzied domains.
+    
+    domains: list of dictionaries
+        List of dictionaries containing various information on the domain.
+        **Each dictionairy should contain at least the following keys with values**:
+        `&#39;domain-name&#39;` and `&#39;fuzzer&#39;`.
+    
+    thread_count: int
+        Number of dnstwist.DomainThread that can be utilized to process each
+        domain in the queue.
+    
+    Returns
+    -------
+    Returns: pandas.DataFrame
+        Returns a DataFrame containing all information provided as input in the
+        dictionaries in the `domains` parameter, in addition to the information
+        found (ssdeep score, geoip, etc.)
+    &#34;&#34;&#34;
+    def _exit(code):
+        print(dnstwist_module.FG_RST + dnstwist_module.ST_RST, end=&#39;&#39;)
+        dnstwist_module.sys.exit(code)
+
+    threads = []
+    include_ssdeep = True
+
+    def p_cli(text):
+        print(text, end=&#39;&#39;, flush=True)
+    def p_err(text):
+        print(str(text), file=dnstwist_module.sys.stderr, flush=True)
+
+    def signal_handler(signal, frame):
+        print(&#39;\nStopping threads... &#39;, file=dnstwist_module.sys.stderr, end=&#39;&#39;, flush=True)
+        for worker in threads:
+            worker.stop()
+            worker.join()
+        print(&#39;Done&#39;, file=dnstwist_module.sys.stderr)
+        _exit(0)
+
+    dnstwist_module.signal.signal(dnstwist_module.signal.SIGINT, signal_handler)
+    dnstwist_module.signal.signal(dnstwist_module.signal.SIGTERM, signal_handler)
+
+    # SSDEEP
+    try:
+        url = dnstwist_module.UrlParser(original_domain)
+    except ValueError:
+        dnstwist_module.parser.error(&#39;invalid domain name: &#39; + original_domain)
+
+    ssdeep_init = str()
+    ssdeep_effective_url = str()
+
+    request_url = url.full_uri()
+    p_cli(&#39;Fetching content from: %s &#39; % request_url)
+    try:
+        req = dnstwist_module.requests.get(
+            request_url,
+            timeout=dnstwist_module.REQUEST_TIMEOUT_HTTP,
+            headers={&#39;User-Agent&#39;: DNSTWIST_USER_AGENT}
+        )
+    except dnstwist_module.requests.exceptions.ConnectionError:
+        p_cli(&#39;Connection error\n&#39;)
+        _exit(1)
+    except dnstwist_module.requests.exceptions.HTTPError:
+        p_cli(&#39;Invalid HTTP response\n&#39;)
+        _exit(1)
+    except dnstwist_module.requests.exceptions.Timeout:
+        p_cli(&#39;Timeout (%d seconds)\n&#39; % dnstwist_module.REQUEST_TIMEOUT_HTTP)
+        _exit(1)
+    except Exception:
+        p_cli(&#39;Failed!\n&#39;)
+        _exit(1)
+    else:
+        if len(req.history) &gt; 1:
+            p_cli(&#39;➔ %s &#39; % req.url.split(&#39;?&#39;)[0])
+        p_cli(&#39;%d %s (%.1f Kbytes)\n&#39; % (req.status_code, req.reason, float(len(req.text))/1000))
+        if req.status_code // 100 == 2:
+            ssdeep_init = ssdeep.hash(&#39;&#39;.join(req.text.split()).lower())
+            ssdeep_effective_url = req.url.split(&#39;?&#39;)[0]
+        else:
+            include_ssdeep = False
+
+    p_cli(&#39;Processing %d permutations &#39; % len(domains))
+
+    jobs = queue.Queue()
+
+    for i in range(len(domains)):
+        jobs.put(domains[i])
+
+    for _ in range(thread_count):
+        worker = dnstwist_module.DomainThread(jobs)
+        worker.setDaemon(True)
+
+        worker.uri_scheme = url.scheme
+        worker.uri_path = url.path
+        worker.uri_query = url.query
+
+        worker.domain_init = url.domain
+
+        worker.option_extdns = True
+        worker.option_geoip = True
+        worker.option_banners = True
+        worker.option_ssdeep = include_ssdeep
+        worker.ssdeep_init = ssdeep_init
+        worker.ssdeep_effective_url = ssdeep_effective_url
+        worker.option_mxcheck = True
+        worker.nameservers = []
+        worker.useragent = DNSTWIST_USER_AGENT
+
+        worker.debug = False
+
+        worker.start()
+        threads.append(worker)
+
+    qperc = 0
+    while not jobs.empty():
+        p_cli(&#39;·&#39;)
+        qcurr = 100 * (len(domains) - jobs.qsize()) / len(domains)
+        if qcurr - 20 &gt;= qperc:
+            qperc = qcurr
+            p_cli(&#39;%u%%&#39; % qperc)
+        dnstwist_module.time.sleep(1.0)
+
+    for worker in threads:
+        worker.stop()
+        worker.join()
+
+    p_cli(&#39; %d hits\n&#39; % sum([1 for x in domains if len(x) &gt; 2]))
+
+    domains[:] = [x for x in domains if len(x) &gt; 2]
+
+    p_cli(&#39;Querying WHOIS servers &#39;)
+    for domain in tqdm(domains, desc=&#39;Querying WHOIS servers&#39;, unit=&#39;domain&#39;):
+        if len(domain) &gt; 2:
+            try:
+                whoisq = dnstwist_module.whois.query(domain[&#39;domain-name&#39;])
+            except Exception as e:
+                pass
+            else:
+                if whoisq and whoisq.creation_date:
+                    domain[&#39;whois-created&#39;] = str(whoisq.creation_date).split(&#39; &#39;)[0]
+                if whoisq and whoisq.registrar:
+                    domain[&#39;whois-registrar&#39;] = str(whoisq.registrar)
+
+    for i in range(len(domains)):
+        for k in [&#39;dns-ns&#39;, &#39;dns-a&#39;, &#39;dns-aaaa&#39;, &#39;dns-mx&#39;]:
+            if k in domains[i]:
+                domains[i][k] = domains[i][k][:1]
+
+    
+    csv_data = StringIO(
+        _create_csv(domains)
+    )
+
+    return pandas.read_csv(csv_data, sep=&#39;,&#39;)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="phishfinder.discovery.dnstwist_wrapper.dnstwist"><code class="name flex">
+<span>def <span class="ident">dnstwist</span></span>(<span>original_domains, keywords=[], french_tld=False, english_tld=False, common_tld=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Generates possible phishing domain.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>original_domains</code></strong> :&ensp;<code>list</code> of <code>str</code></dt>
+<dd>List of domain names to be fuzzied to generate additional domains. E.g. ['netflix.com', 'paypal.com']</dd>
+<dt><strong><code>keywords</code></strong> :&ensp;<code>list</code> of <code>str</code></dt>
+<dd>List of keywords used to generate additional possible phishing domains. E.g. ['support', 'login']</dd>
+<dt><strong><code>french_tld</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Include the top-level domains from the French TLD list.</dd>
+<dt><strong><code>english_tld</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Include the top-level domains from the English TLD list.</dd>
+<dt><strong><code>common_tld</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Include the most common top-level domains.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>Returns</code></strong> :&ensp;<code>list</code> of <code>dictionaries</code></dt>
+<dd>Returns a list of dictionaries containing generated domain names. Dictionaries include
+the original domain used for generation, fuzzer used, and the generated domain name.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def dnstwist(original_domains, keywords = [], french_tld=False, english_tld=False, common_tld=False):
+    &#34;&#34;&#34;
+    Generates possible phishing domain.
+    
+    Parameters
+    ----------
+    original_domains: list of str
+        List of domain names to be fuzzied to generate additional domains. E.g. [&#39;netflix.com&#39;, &#39;paypal.com&#39;]
+
+    keywords: list of str
+        List of keywords used to generate additional possible phishing domains. E.g. [&#39;support&#39;, &#39;login&#39;]
+
+    french_tld: bool
+        Include the top-level domains from the French TLD list.
+    
+    english_tld: bool
+        Include the top-level domains from the English TLD list.
+    
+    common_tld: bool
+        Include the most common top-level domains.
+
+    Returns
+    -------
+    Returns: list of dictionaries
+        Returns a list of dictionaries containing generated domain names. Dictionaries include
+        the original domain used for generation, fuzzer used, and the generated domain name.
+    &#34;&#34;&#34;
+
+    # Use abused TLDs by default
+    tld_list = _parse_tld_file(&#39;abused_tlds.dict&#39;)
+
+    if french_tld:
+        tld_list += _parse_tld_file(&#39;french.dict&#39;)
+
+    if english_tld:
+        tld_list += _parse_tld_file(&#39;english.dict&#39;)
+    
+    if common_tld:
+        tld_list += _parse_tld_file(&#39;common_tlds.dict&#39;)
+
+    dnstwist_domains = []
+
+    for domain in tqdm(original_domains, desc=&#39;Fuzzing domains&#39;, unit=&#39;domains&#39;):
+        url = dnstwist_module.UrlParser(domain)
+
+        fuzzer = dnstwist_module.DomainFuzz(
+            url.domain, dictionary=keywords, tld_dictionary=tld_list
+        )
+        
+        fuzzer.generate()
+
+        # Add original domain to dictionaries
+        for result in fuzzer.domains:
+            result[&#39;original-domain&#39;] = domain
+        
+        dnstwist_domains += fuzzer.domains
+
+    return dnstwist_domains</code></pre>
+</details>
+</dd>
+<dt id="phishfinder.discovery.dnstwist_wrapper.process_existing_domains"><code class="name flex">
+<span>def <span class="ident">process_existing_domains</span></span>(<span>original_domain, domains=[], thread_count=10)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Processes domains to obtain various informations.</p>
+<div class="admonition note">
+<p class="admonition-title">Note:&ensp;This method is slightly modified section of code from</p>
+<p>from <a href="https://github.com/elceef/dnstwist/blob/master/dnstwist.py">dnstwist.main</a>
+which processes domains through ssdeep, whois, mx verification,
+and geoip verification.</p>
+</div>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>original_domain</code></strong> :&ensp;<code>str</code></dt>
+<dd>Domain name used to generate the fuzzied domains. This is utilized to
+evaluate ssdeep scores on both the original domain's webpage and the
+fuzzied domains.</dd>
+<dt><strong><code>domains</code></strong> :&ensp;<code>list</code> of <code>dictionaries</code></dt>
+<dd>List of dictionaries containing various information on the domain.
+<strong>Each dictionairy should contain at least the following keys with values</strong>:
+<code>'domain-name'</code> and <code>'fuzzer'</code>.</dd>
+<dt><strong><code>thread_count</code></strong> :&ensp;<code>int</code></dt>
+<dd>Number of dnstwist.DomainThread that can be utilized to process each
+domain in the queue.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>Returns</code></strong> :&ensp;<code>pandas.DataFrame</code></dt>
+<dd>Returns a DataFrame containing all information provided as input in the
+dictionaries in the <code>domains</code> parameter, in addition to the information
+found (ssdeep score, geoip, etc.)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def process_existing_domains(original_domain, domains=[], thread_count=10):
+    &#34;&#34;&#34;
+    Processes domains to obtain various informations.
+
+    .. note:: This method is slightly modified section of code from
+        from [dnstwist.main](https://github.com/elceef/dnstwist/blob/master/dnstwist.py)
+        which processes domains through ssdeep, whois, mx verification,
+        and geoip verification.
+
+    Parameters
+    ----------
+    original_domain: str
+        Domain name used to generate the fuzzied domains. This is utilized to
+        evaluate ssdeep scores on both the original domain&#39;s webpage and the
+        fuzzied domains.
+    
+    domains: list of dictionaries
+        List of dictionaries containing various information on the domain.
+        **Each dictionairy should contain at least the following keys with values**:
+        `&#39;domain-name&#39;` and `&#39;fuzzer&#39;`.
+    
+    thread_count: int
+        Number of dnstwist.DomainThread that can be utilized to process each
+        domain in the queue.
+    
+    Returns
+    -------
+    Returns: pandas.DataFrame
+        Returns a DataFrame containing all information provided as input in the
+        dictionaries in the `domains` parameter, in addition to the information
+        found (ssdeep score, geoip, etc.)
+    &#34;&#34;&#34;
+    def _exit(code):
+        print(dnstwist_module.FG_RST + dnstwist_module.ST_RST, end=&#39;&#39;)
+        dnstwist_module.sys.exit(code)
+
+    threads = []
+    include_ssdeep = True
+
+    def p_cli(text):
+        print(text, end=&#39;&#39;, flush=True)
+    def p_err(text):
+        print(str(text), file=dnstwist_module.sys.stderr, flush=True)
+
+    def signal_handler(signal, frame):
+        print(&#39;\nStopping threads... &#39;, file=dnstwist_module.sys.stderr, end=&#39;&#39;, flush=True)
+        for worker in threads:
+            worker.stop()
+            worker.join()
+        print(&#39;Done&#39;, file=dnstwist_module.sys.stderr)
+        _exit(0)
+
+    dnstwist_module.signal.signal(dnstwist_module.signal.SIGINT, signal_handler)
+    dnstwist_module.signal.signal(dnstwist_module.signal.SIGTERM, signal_handler)
+
+    # SSDEEP
+    try:
+        url = dnstwist_module.UrlParser(original_domain)
+    except ValueError:
+        dnstwist_module.parser.error(&#39;invalid domain name: &#39; + original_domain)
+
+    ssdeep_init = str()
+    ssdeep_effective_url = str()
+
+    request_url = url.full_uri()
+    p_cli(&#39;Fetching content from: %s &#39; % request_url)
+    try:
+        req = dnstwist_module.requests.get(
+            request_url,
+            timeout=dnstwist_module.REQUEST_TIMEOUT_HTTP,
+            headers={&#39;User-Agent&#39;: DNSTWIST_USER_AGENT}
+        )
+    except dnstwist_module.requests.exceptions.ConnectionError:
+        p_cli(&#39;Connection error\n&#39;)
+        _exit(1)
+    except dnstwist_module.requests.exceptions.HTTPError:
+        p_cli(&#39;Invalid HTTP response\n&#39;)
+        _exit(1)
+    except dnstwist_module.requests.exceptions.Timeout:
+        p_cli(&#39;Timeout (%d seconds)\n&#39; % dnstwist_module.REQUEST_TIMEOUT_HTTP)
+        _exit(1)
+    except Exception:
+        p_cli(&#39;Failed!\n&#39;)
+        _exit(1)
+    else:
+        if len(req.history) &gt; 1:
+            p_cli(&#39;➔ %s &#39; % req.url.split(&#39;?&#39;)[0])
+        p_cli(&#39;%d %s (%.1f Kbytes)\n&#39; % (req.status_code, req.reason, float(len(req.text))/1000))
+        if req.status_code // 100 == 2:
+            ssdeep_init = ssdeep.hash(&#39;&#39;.join(req.text.split()).lower())
+            ssdeep_effective_url = req.url.split(&#39;?&#39;)[0]
+        else:
+            include_ssdeep = False
+
+    p_cli(&#39;Processing %d permutations &#39; % len(domains))
+
+    jobs = queue.Queue()
+
+    for i in range(len(domains)):
+        jobs.put(domains[i])
+
+    for _ in range(thread_count):
+        worker = dnstwist_module.DomainThread(jobs)
+        worker.setDaemon(True)
+
+        worker.uri_scheme = url.scheme
+        worker.uri_path = url.path
+        worker.uri_query = url.query
+
+        worker.domain_init = url.domain
+
+        worker.option_extdns = True
+        worker.option_geoip = True
+        worker.option_banners = True
+        worker.option_ssdeep = include_ssdeep
+        worker.ssdeep_init = ssdeep_init
+        worker.ssdeep_effective_url = ssdeep_effective_url
+        worker.option_mxcheck = True
+        worker.nameservers = []
+        worker.useragent = DNSTWIST_USER_AGENT
+
+        worker.debug = False
+
+        worker.start()
+        threads.append(worker)
+
+    qperc = 0
+    while not jobs.empty():
+        p_cli(&#39;·&#39;)
+        qcurr = 100 * (len(domains) - jobs.qsize()) / len(domains)
+        if qcurr - 20 &gt;= qperc:
+            qperc = qcurr
+            p_cli(&#39;%u%%&#39; % qperc)
+        dnstwist_module.time.sleep(1.0)
+
+    for worker in threads:
+        worker.stop()
+        worker.join()
+
+    p_cli(&#39; %d hits\n&#39; % sum([1 for x in domains if len(x) &gt; 2]))
+
+    domains[:] = [x for x in domains if len(x) &gt; 2]
+
+    p_cli(&#39;Querying WHOIS servers &#39;)
+    for domain in tqdm(domains, desc=&#39;Querying WHOIS servers&#39;, unit=&#39;domain&#39;):
+        if len(domain) &gt; 2:
+            try:
+                whoisq = dnstwist_module.whois.query(domain[&#39;domain-name&#39;])
+            except Exception as e:
+                pass
+            else:
+                if whoisq and whoisq.creation_date:
+                    domain[&#39;whois-created&#39;] = str(whoisq.creation_date).split(&#39; &#39;)[0]
+                if whoisq and whoisq.registrar:
+                    domain[&#39;whois-registrar&#39;] = str(whoisq.registrar)
+
+    for i in range(len(domains)):
+        for k in [&#39;dns-ns&#39;, &#39;dns-a&#39;, &#39;dns-aaaa&#39;, &#39;dns-mx&#39;]:
+            if k in domains[i]:
+                domains[i][k] = domains[i][k][:1]
+
+    
+    csv_data = StringIO(
+        _create_csv(domains)
+    )
+
+    return pandas.read_csv(csv_data, sep=&#39;,&#39;)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul>
+<li><a href="#purpose">Purpose</a></li>
+<li><a href="#non-public-functions">Non-Public Functions</a></li>
+</ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="phishfinder.discovery" href="index.html">phishfinder.discovery</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="phishfinder.discovery.dnstwist_wrapper.dnstwist" href="#phishfinder.discovery.dnstwist_wrapper.dnstwist">dnstwist</a></code></li>
+<li><code><a title="phishfinder.discovery.dnstwist_wrapper.process_existing_domains" href="#phishfinder.discovery.dnstwist_wrapper.process_existing_domains">process_existing_domains</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>
