@@ -3,11 +3,13 @@ Wrapper module for the DNSTwist tool.
 
 This module is a wrapper for the DNSTwist tool:
 [https://github.com/elceef/dnstwist](https://github.com/elceef/dnstwist).
-Some parts of the original tool were modified and incorporated into the
-`process_existing_domains` function.
 
-The current version of DNSTwist (20201022) does not provide
-any licensing information.
+.. important:: DNSTwist is licensed under the Apache2.0 License by Marcin Ulikowski.
+    A copy of the license can be found at http://www.apache.org/licenses/LICENSE-2.0
+    or in the root of the project in `LICENSE_dnstwist.txt`.
+
+    Some parts of the original tool were modified and incorporated into
+    `process_existing_domains`.
 
 Purpose
 -------
@@ -28,7 +30,6 @@ Non-Public Functions
 import pandas
 import queue
 import dnstwist as dnstwist_module
-import ssdeep
 
 from subprocess import run, PIPE
 from io import StringIO
@@ -106,10 +107,10 @@ def dnstwist(original_domains, keywords = [], french_tld=False, english_tld=Fals
     Parameters
     ----------
     original_domains: list of str
-        List of domain names to be fuzzied to generate additional domains. E.g. ['netflix.com', 'paypal.com']
+        List of domain names to be fuzzied to generate additional domains. E.g. `['netflix.com', 'paypal.com']`
 
     keywords: list of str
-        List of keywords used to generate additional possible phishing domains. E.g. ['support', 'login']
+        List of keywords used to generate additional possible phishing domains. E.g. `['support', 'login']`
 
     french_tld: bool
         Include the top-level domains from the French TLD list.
@@ -248,7 +249,7 @@ def process_existing_domains(original_domain, domains=[], thread_count=10):
             p_cli('➔ %s ' % req.url.split('?')[0])
         p_cli('%d %s (%.1f Kbytes)\n' % (req.status_code, req.reason, float(len(req.text))/1000))
         if req.status_code // 100 == 2:
-            ssdeep_init = ssdeep.hash(''.join(req.text.split()).lower())
+            ssdeep_init = dnstwist_module.ssdeep.hash(''.join(req.text.split()).lower())
             ssdeep_effective_url = req.url.split('?')[0]
         else:
             include_ssdeep = False
@@ -302,18 +303,18 @@ def process_existing_domains(original_domain, domains=[], thread_count=10):
 
     domains[:] = [x for x in domains if len(x) > 2]
 
-    p_cli('Querying WHOIS servers ')
-    for domain in tqdm(domains, desc='Querying WHOIS servers', unit='domain'):
-        if len(domain) > 2:
-            try:
-                whoisq = dnstwist_module.whois.query(domain['domain-name'])
-            except Exception as e:
-                pass
-            else:
-                if whoisq and whoisq.creation_date:
-                    domain['whois-created'] = str(whoisq.creation_date).split(' ')[0]
-                if whoisq and whoisq.registrar:
-                    domain['whois-registrar'] = str(whoisq.registrar)
+    #p_cli('Querying WHOIS servers ')
+    #for domain in tqdm(domains, desc='Querying WHOIS servers', unit='domain'):
+    #    if len(domain) > 2:
+    #        try:
+    #            whoisq = dnstwist_module.whois.query(domain['domain-name'])
+    #        except Exception as e:
+    #            pass
+    #        else:
+    #            if whoisq and whoisq.creation_date:
+    #                domain['whois-created'] = str(whoisq.creation_date).split(' ')[0]
+    #            if whoisq and whoisq.registrar:
+    #                domain['whois-registrar'] = str(whoisq.registrar)
 
     for i in range(len(domains)):
         for k in ['dns-ns', 'dns-a', 'dns-aaaa', 'dns-mx']:

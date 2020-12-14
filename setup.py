@@ -13,7 +13,6 @@ setup(
     },
     install_requires=[
         'pandas',
-        'crtsh',
         'dnstwist',
         'tqdm',
         'numpy',

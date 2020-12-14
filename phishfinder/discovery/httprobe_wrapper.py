@@ -4,6 +4,9 @@ Wrapper module for the HTTProbe tool.
 This module is a wrapper for the HTTProbe tool:
 [https://github.com/tomnomnom/httprobe](https://github.com/tomnomnom/httprobe).
 
+.. important:: HTTProbe is licensed under the MIT License by Tom Hudson.
+    A copy of the license can be found in the root of the project in `LICENSE_MIT.txt`.
+
 Purpose
 -------
 Allows the Discovery pipeline to detect running HTTP and 
