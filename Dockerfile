@@ -2,7 +2,7 @@ FROM debian:stable-slim
 
 # Install Requirements for setup
 RUN apt-get update && \
-    apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev \
+    apt-get install build-essential zlib1g-dev libncurses5-dev libgdbm-dev \
     libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev \
     wget libbz2-dev liblzma-dev curl python3-pip git -y
 
