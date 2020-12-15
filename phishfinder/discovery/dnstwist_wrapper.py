@@ -30,6 +30,7 @@ Non-Public Functions
 import pandas
 import queue
 import dnstwist as dnstwist_module
+import ssdeep
 
 from subprocess import run, PIPE
 from io import StringIO
@@ -73,9 +74,9 @@ def _create_csv(domains):
         'dns-mx',
         'geoip-country',
         'banner-http',
-        'ssdeep-score',
-        'whois-created',
-        'whois-registrar'
+        'ssdeep-score'#,
+        #'whois-created',
+        #'whois-registrar'
     ]
 
     if domains:
@@ -86,7 +87,7 @@ def _create_csv(domains):
     for domain in domains:
         domain_row = []
         for key in keys:
-            if isinstance(domain[key], list):
+            if (key in domain.keys() and isinstance(domain[key], list)):
                 domain_row.append(
                     ';'.join(domain.get(key, []))
                 )
@@ -249,7 +250,7 @@ def process_existing_domains(original_domain, domains=[], thread_count=10):
             p_cli('➔ %s ' % req.url.split('?')[0])
         p_cli('%d %s (%.1f Kbytes)\n' % (req.status_code, req.reason, float(len(req.text))/1000))
         if req.status_code // 100 == 2:
-            ssdeep_init = dnstwist_module.ssdeep.hash(''.join(req.text.split()).lower())
+            ssdeep_init = ssdeep.hash(''.join(req.text.split()).lower())
             ssdeep_effective_url = req.url.split('?')[0]
         else:
             include_ssdeep = False
