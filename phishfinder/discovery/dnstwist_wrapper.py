@@ -74,9 +74,7 @@ def _create_csv(domains):
         'dns-mx',
         'geoip-country',
         'banner-http',
-        'ssdeep-score'#,
-        #'whois-created',
-        #'whois-registrar'
+        'ssdeep-score'
     ]
 
     if domains:
@@ -167,7 +165,7 @@ def process_existing_domains(original_domain, domains=[], thread_count=10):
 
     .. note:: This method is slightly modified section of code from
         from [dnstwist.main](https://github.com/elceef/dnstwist/blob/master/dnstwist.py)
-        which processes domains through ssdeep, whois, mx verification,
+        which processes domains through ssdeep, mx verification,
         and geoip verification.
 
     Parameters
@@ -303,19 +301,6 @@ def process_existing_domains(original_domain, domains=[], thread_count=10):
     p_cli(' %d hits\n' % sum([1 for x in domains if len(x) > 2]))
 
     domains[:] = [x for x in domains if len(x) > 2]
-
-    #p_cli('Querying WHOIS servers ')
-    #for domain in tqdm(domains, desc='Querying WHOIS servers', unit='domain'):
-    #    if len(domain) > 2:
-    #        try:
-    #            whoisq = dnstwist_module.whois.query(domain['domain-name'])
-    #        except Exception as e:
-    #            pass
-    #        else:
-    #            if whoisq and whoisq.creation_date:
-    #                domain['whois-created'] = str(whoisq.creation_date).split(' ')[0]
-    #            if whoisq and whoisq.registrar:
-    #                domain['whois-registrar'] = str(whoisq.registrar)
 
     for i in range(len(domains)):
         for k in ['dns-ns', 'dns-a', 'dns-aaaa', 'dns-mx']:

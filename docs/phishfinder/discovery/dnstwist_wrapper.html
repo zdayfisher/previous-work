@@ -82,6 +82,7 @@ Non-Public Functions
 import pandas
 import queue
 import dnstwist as dnstwist_module
+import ssdeep
 
 from subprocess import run, PIPE
 from io import StringIO
@@ -125,9 +126,7 @@ def _create_csv(domains):
         &#39;dns-mx&#39;,
         &#39;geoip-country&#39;,
         &#39;banner-http&#39;,
-        &#39;ssdeep-score&#39;,
-        &#39;whois-created&#39;,
-        &#39;whois-registrar&#39;
+        &#39;ssdeep-score&#39;
     ]
 
     if domains:
@@ -138,7 +137,7 @@ def _create_csv(domains):
     for domain in domains:
         domain_row = []
         for key in keys:
-            if isinstance(domain[key], list):
+            if (key in domain.keys() and isinstance(domain[key], list)):
                 domain_row.append(
                     &#39;;&#39;.join(domain.get(key, []))
                 )
@@ -159,10 +158,10 @@ def dnstwist(original_domains, keywords = [], french_tld=False, english_tld=Fals
     Parameters
     ----------
     original_domains: list of str
-        List of domain names to be fuzzied to generate additional domains. E.g. [&#39;netflix.com&#39;, &#39;paypal.com&#39;]
+        List of domain names to be fuzzied to generate additional domains. E.g. `[&#39;netflix.com&#39;, &#39;paypal.com&#39;]`
 
     keywords: list of str
-        List of keywords used to generate additional possible phishing domains. E.g. [&#39;support&#39;, &#39;login&#39;]
+        List of keywords used to generate additional possible phishing domains. E.g. `[&#39;support&#39;, &#39;login&#39;]`
 
     french_tld: bool
         Include the top-level domains from the French TLD list.
@@ -218,7 +217,7 @@ def process_existing_domains(original_domain, domains=[], thread_count=10):
 
     .. note:: This method is slightly modified section of code from
         from [dnstwist.main](https://github.com/elceef/dnstwist/blob/master/dnstwist.py)
-        which processes domains through ssdeep, whois, mx verification,
+        which processes domains through ssdeep, mx verification,
         and geoip verification.
 
     Parameters
@@ -301,7 +300,7 @@ def process_existing_domains(original_domain, domains=[], thread_count=10):
             p_cli(&#39;➔ %s &#39; % req.url.split(&#39;?&#39;)[0])
         p_cli(&#39;%d %s (%.1f Kbytes)\n&#39; % (req.status_code, req.reason, float(len(req.text))/1000))
         if req.status_code // 100 == 2:
-            ssdeep_init = dnstwist_module.ssdeep.hash(&#39;&#39;.join(req.text.split()).lower())
+            ssdeep_init = ssdeep.hash(&#39;&#39;.join(req.text.split()).lower())
             ssdeep_effective_url = req.url.split(&#39;?&#39;)[0]
         else:
             include_ssdeep = False
@@ -355,19 +354,6 @@ def process_existing_domains(original_domain, domains=[], thread_count=10):
 
     domains[:] = [x for x in domains if len(x) &gt; 2]
 
-    #p_cli(&#39;Querying WHOIS servers &#39;)
-    #for domain in tqdm(domains, desc=&#39;Querying WHOIS servers&#39;, unit=&#39;domain&#39;):
-    #    if len(domain) &gt; 2:
-    #        try:
-    #            whoisq = dnstwist_module.whois.query(domain[&#39;domain-name&#39;])
-    #        except Exception as e:
-    #            pass
-    #        else:
-    #            if whoisq and whoisq.creation_date:
-    #                domain[&#39;whois-created&#39;] = str(whoisq.creation_date).split(&#39; &#39;)[0]
-    #            if whoisq and whoisq.registrar:
-    #                domain[&#39;whois-registrar&#39;] = str(whoisq.registrar)
-
     for i in range(len(domains)):
         for k in [&#39;dns-ns&#39;, &#39;dns-a&#39;, &#39;dns-aaaa&#39;, &#39;dns-mx&#39;]:
             if k in domains[i]:
@@ -396,9 +382,9 @@ def process_existing_domains(original_domain, domains=[], thread_count=10):
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>original_domains</code></strong> :&ensp;<code>list</code> of <code>str</code></dt>
-<dd>List of domain names to be fuzzied to generate additional domains. E.g. ['netflix.com', 'paypal.com']</dd>
+<dd>List of domain names to be fuzzied to generate additional domains. E.g. <code>['netflix.com', 'paypal.com']</code></dd>
 <dt><strong><code>keywords</code></strong> :&ensp;<code>list</code> of <code>str</code></dt>
-<dd>List of keywords used to generate additional possible phishing domains. E.g. ['support', 'login']</dd>
+<dd>List of keywords used to generate additional possible phishing domains. E.g. <code>['support', 'login']</code></dd>
 <dt><strong><code>french_tld</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Include the top-level domains from the French TLD list.</dd>
 <dt><strong><code>english_tld</code></strong> :&ensp;<code>bool</code></dt>
@@ -423,10 +409,10 @@ the original domain used for generation, fuzzer used, and the generated domain n
     Parameters
     ----------
     original_domains: list of str
-        List of domain names to be fuzzied to generate additional domains. E.g. [&#39;netflix.com&#39;, &#39;paypal.com&#39;]
+        List of domain names to be fuzzied to generate additional domains. E.g. `[&#39;netflix.com&#39;, &#39;paypal.com&#39;]`
 
     keywords: list of str
-        List of keywords used to generate additional possible phishing domains. E.g. [&#39;support&#39;, &#39;login&#39;]
+        List of keywords used to generate additional possible phishing domains. E.g. `[&#39;support&#39;, &#39;login&#39;]`
 
     french_tld: bool
         Include the top-level domains from the French TLD list.
@@ -484,7 +470,7 @@ the original domain used for generation, fuzzer used, and the generated domain n
 <div class="admonition note">
 <p class="admonition-title">Note:&ensp;This method is slightly modified section of code from</p>
 <p>from <a href="https://github.com/elceef/dnstwist/blob/master/dnstwist.py">dnstwist.main</a>
-which processes domains through ssdeep, whois, mx verification,
+which processes domains through ssdeep, mx verification,
 and geoip verification.</p>
 </div>
 <h2 id="parameters">Parameters</h2>
@@ -518,7 +504,7 @@ found (ssdeep score, geoip, etc.)</dd>
 
     .. note:: This method is slightly modified section of code from
         from [dnstwist.main](https://github.com/elceef/dnstwist/blob/master/dnstwist.py)
-        which processes domains through ssdeep, whois, mx verification,
+        which processes domains through ssdeep, mx verification,
         and geoip verification.
 
     Parameters
@@ -601,7 +587,7 @@ found (ssdeep score, geoip, etc.)</dd>
             p_cli(&#39;➔ %s &#39; % req.url.split(&#39;?&#39;)[0])
         p_cli(&#39;%d %s (%.1f Kbytes)\n&#39; % (req.status_code, req.reason, float(len(req.text))/1000))
         if req.status_code // 100 == 2:
-            ssdeep_init = dnstwist_module.ssdeep.hash(&#39;&#39;.join(req.text.split()).lower())
+            ssdeep_init = ssdeep.hash(&#39;&#39;.join(req.text.split()).lower())
             ssdeep_effective_url = req.url.split(&#39;?&#39;)[0]
         else:
             include_ssdeep = False
@@ -654,19 +640,6 @@ found (ssdeep score, geoip, etc.)</dd>
     p_cli(&#39; %d hits\n&#39; % sum([1 for x in domains if len(x) &gt; 2]))
 
     domains[:] = [x for x in domains if len(x) &gt; 2]
-
-    #p_cli(&#39;Querying WHOIS servers &#39;)
-    #for domain in tqdm(domains, desc=&#39;Querying WHOIS servers&#39;, unit=&#39;domain&#39;):
-    #    if len(domain) &gt; 2:
-    #        try:
-    #            whoisq = dnstwist_module.whois.query(domain[&#39;domain-name&#39;])
-    #        except Exception as e:
-    #            pass
-    #        else:
-    #            if whoisq and whoisq.creation_date:
-    #                domain[&#39;whois-created&#39;] = str(whoisq.creation_date).split(&#39; &#39;)[0]
-    #            if whoisq and whoisq.registrar:
-    #                domain[&#39;whois-registrar&#39;] = str(whoisq.registrar)
 
     for i in range(len(domains)):
         for k in [&#39;dns-ns&#39;, &#39;dns-a&#39;, &#39;dns-aaaa&#39;, &#39;dns-mx&#39;]:

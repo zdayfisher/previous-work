@@ -111,7 +111,7 @@ def _create_batch_strings(domains):
         ).stdout.decode(&#39;utf-8&#39;)
     )
 
-    for domain in tqdm(domains, desc=&#39;Creating batches of domains&#39;, unit=&#39;domains&#39;):
+    for domain in tqdm(domains, desc=&#39;Creating batches of domains for probing&#39;, unit=&#39;domains&#39;):
         if len(domain) + current_batch_char_length &lt; 25000:
             current_batch.append(domain)
             current_batch_char_length += len(domain)

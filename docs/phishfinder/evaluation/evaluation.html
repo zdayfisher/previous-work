@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>phishfinder.evaluation.evaluation API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>phishfinder.evaluation.evaluation</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.neural_network import MLPClassifier
+from sklearn import preprocessing
+from sklearn.preprocessing import OneHotEncoder
+import datetime
+import pandas as pd
+import numpy as np
+import tldextract
+
+from os.path import dirname, join as pjoin
+
+
+def is_ip(url):
+    &#39;&#39;&#39;
+    Check if URL contains an IP address inside
+    &#39;&#39;&#39;
+    s =  url.find(&#39;//&#39;)
+    if s != -1 and len(url) &gt;= s + 14:
+        url = url[s+2:s+14]
+    return 1 if url.replace(&#39;.&#39;, &#39;&#39;).isnumeric() else 0
+
+def suspicious_characters(url):
+    &#39;&#39;&#39;
+    Check if domain name contains suspicious characters such as &#39;@&#39;
+    &#39;&#39;&#39;
+    if isinstance(url, float):
+        print(url)
+    return 1 if &#39;@&#39; in url else 0
+
+def use_http(url):
+    &#39;&#39;&#39;
+    Check if http:// is used instead of https://
+    &#39;&#39;&#39;
+    return 1 if &#39;http://&#39; in url else 0
+
+def redirects(url):
+    &#39;&#39;&#39;
+    Check if URL redirects you to another final URL
+    &#39;&#39;&#39;
+    return False
+
+def process_input_data_URL():
+    &#39;&#39;&#39;
+    Returns the dataframe containing information about benign and malicious URLs
+    &#39;&#39;&#39;
+    df = pd.read_csv(pjoin(dirname(__file__), &#34;data/original_lists/data-benign.csv&#34;))
+    df[&#39;phishing&#39;] = df.apply(lambda row: 0, axis = 1)
+
+    df_malicious = pd.read_csv(pjoin(dirname(__file__), &#34;data/original_lists/data-malicious.csv&#34;))
+    df_malicious[&#39;phishing&#39;] = df_malicious.apply(lambda row: 1, axis = 1)
+
+    df = df.append(df_malicious, ignore_index = True)
+
+    #extract domain info and apply heuristics based on that info
+    df[&#39;subdomain&#39;] = df.apply(lambda row: tldextract.extract(row[&#39;link&#39;]).subdomain, axis = 1)
+    df[&#39;domain&#39;] = df.apply(lambda row: tldextract.extract(row[&#39;link&#39;]).domain, axis = 1)
+    df[&#39;suffix&#39;] = df.apply(lambda row: tldextract.extract(row[&#39;link&#39;]).suffix, axis = 1)
+    df[&#39;insecure_protocol&#39;] = df.apply(lambda row: use_http(row[&#39;link&#39;]), axis = 1)
+    df[&#39;is-ip&#39;] = df.apply(lambda row: is_ip(row[&#39;link&#39;]), axis = 1)
+    df[&#39;suspicious-chars&#39;] = df.apply(lambda row: suspicious_characters(row[&#39;link&#39;]), axis = 1)
+    df[&#39;domain-length&#39;] = df.apply(lambda row: len(row[&#39;subdomain&#39;]) + len(row[&#39;domain&#39;]), axis = 1)
+
+    #shuffle the dataframe
+    df = df.sample(frac=1).reset_index(drop=True)
+
+    return df
+
+def process_input_data_domain():
+    &#39;&#39;&#39;
+    Returns the dataframe containing information about benign and malicious domains
+    &#39;&#39;&#39;
+    df = pd.read_csv(pjoin(dirname(__file__), &#34;data/training_data/benign_certs.csv&#34;))
+    df[&#39;phishing&#39;] = df.apply(lambda row: 0, axis = 1)
+
+    df_malicious = pd.read_csv(pjoin(dirname(__file__), &#34;data/training_data/malicious_certs.csv&#34;))
+    df_malicious[&#39;phishing&#39;] = df_malicious.apply(lambda row: 1, axis = 1)
+
+    df = df.append(df_malicious, ignore_index = True)
+
+    df.dropna(inplace=True)
+    
+    df[&#39;suspicious-chars&#39;] = df.apply(lambda row: suspicious_characters(row[&#39;domain-name&#39;]), axis = 1)
+    df[&#39;domain-length&#39;] = df.apply(lambda row: len(row[&#39;domain-name&#39;]), axis = 1)
+
+    #shuffle the dataframe
+    df = df.sample(frac=1).reset_index(drop=True)
+    df = df.iloc[:10000, :]
+
+
+    return df
+
+
+
+#Model Evaluation Metrics
+
+def recall(actual_tags, predictions, class_of_interest):
+    &#39;&#39;&#39;
+    Calculates the recall for a specific class, given the ground truth and predicted values.
+    &#39;&#39;&#39;
+    total_found = 0
+    for i in range(len(actual_tags)):
+        if (actual_tags[i] == class_of_interest and actual_tags[i] == predictions[i]):
+            total_found += 1
+    return total_found / np.count_nonzero(actual_tags == class_of_interest)
+
+def precision(actual_tags, predictions, class_of_interest):
+    &#39;&#39;&#39;
+    Calculates the precision for a specific class, given the ground truth and predicted values.
+    &#39;&#39;&#39;
+    total_found = 0
+    for i in range(len(actual_tags)):
+        if (actual_tags[i] == class_of_interest and actual_tags[i] == predictions[i]):
+            total_found += 1
+    return total_found / np.count_nonzero(predictions == class_of_interest)
+
+def accuracy(actual_tags, predictions):
+    &#39;&#39;&#39;
+    Calculates the average number of correct predictions.
+        - actual_tags: The ground truth
+        - predictions: What the model predicts
+    &#39;&#39;&#39;
+    total_found = 0
+    for i in range(len(actual_tags)):
+        if (actual_tags[i] == predictions[i]):
+            total_found += 1
+    return total_found / len(predictions)
+
+def prep_URL_data():
+    X = process_input_data_URL()
+    ohe = OneHotEncoder(sparse=False, handle_unknown=&#39;ignore&#39;)
+   
+    y = X.pop(&#39;phishing&#39;).values
+    
+    feature_set = {&#39;insecure-protocol&#39;, &#39;is_ip&#39;, &#39;suspicious-chars&#39;, &#39;domain-length&#39;, &#39;suffix&#39;}
+    
+    X = X[feature_set].copy()
+    X_train, X_val, y_train, y_val = train_test_split(X, y, test_size = 0.2, random_state=2)
+
+    ohe.fit(X_train)
+    X_train_encoded = ohe.transform(X_train)
+    X_val_encoded = ohe.transform(X_val)
+
+    return X_train_encoded, y_train, X_val_encoded, y_val
+
+def prep_domain_data():
+    X = process_input_data_domain()
+
+    ohe = OneHotEncoder(sparse=False, handle_unknown=&#39;ignore&#39;)
+   
+    y = X.pop(&#39;phishing&#39;).values
+    
+    feature_set = {&#39;suspicious-chars&#39;, &#39;domain-length&#39;, &#39;issuer-name&#39;, &#39;issuer-country&#39;, &#39;cert-duration&#39;}
+    
+    X = X[feature_set].copy()
+    X_train, X_val, y_train, y_val = train_test_split(X, y, test_size = 0.2, random_state=2)
+
+    ohe.fit(X_train)
+    X_train_encoded = ohe.transform(X_train)
+    X_val_encoded = ohe.transform(X_val)
+
+    return X_train_encoded, y_train, X_val_encoded, y_val
+
+def train_and_evaluate_lr(do_domain = True):
+    &#39;&#39;&#39;
+    Returns the accuracy, precision and recall of linear regression model based on URL training data
+    &#39;&#39;&#39;
+    if do_domain:
+        X_train_encoded, y_train, X_val_encoded, y_val = prep_domain_data()
+    else:
+        X_train_encoded, y_train, X_val_encoded, y_val = prep_URL_data()
+
+    clf_lr = LogisticRegression(solver=&#39;lbfgs&#39;, max_iter=1000, random_state=1).fit(X_train_encoded, y_train)
+    ##lr_train_predictions = clf_lr.predict(X_train_encoded)
+    
+    lr_val_predictions = clf_lr.predict(X_val_encoded)
+    return accuracy(y_val, lr_val_predictions), precision(y_val, lr_val_predictions, 1), recall(y_val, lr_val_predictions, 1)
+
+
+def train_and_evaluate_mlp(do_domain = True):
+    &#39;&#39;&#39;
+    Returns the accuracy, precision and recall of multilayer perceptron model based on URL training data
+    &#39;&#39;&#39;
+    if do_domain:
+        X_train_encoded, y_train, X_val_encoded, y_val = prep_domain_data()
+    else:
+        X_train_encoded, y_train, X_val_encoded, y_val = prep_URL_data()
+    clf_mlp = MLPClassifier(solver=&#39;lbfgs&#39;, alpha=1e-4, hidden_layer_sizes=(150, 150), random_state=5, max_iter=120, learning_rate_init=0.01, warm_start=True)
+    clf_mlp.fit(X_train_encoded, y_train)
+    #mlp_train_predictions = clf_mlp.predict(X_train_encoded)
+
+    mlp_val_predictions = clf_mlp.predict(X_val_encoded)
+    return accuracy(y_val, mlp_val_predictions), precision(y_val, mlp_val_predictions, 1), recall(y_val, mlp_val_predictions, 1)
+
+if __name__ == &#39;__main__&#39;:
+    print(train_and_evaluate_mlp())
+    print(train_and_evaluate_lr())</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="phishfinder.evaluation.evaluation.accuracy"><code class="name flex">
+<span>def <span class="ident">accuracy</span></span>(<span>actual_tags, predictions)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the average number of correct predictions.
+- actual_tags: The ground truth
+- predictions: What the model predicts</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def accuracy(actual_tags, predictions):
+    &#39;&#39;&#39;
+    Calculates the average number of correct predictions.
+        - actual_tags: The ground truth
+        - predictions: What the model predicts
+    &#39;&#39;&#39;
+    total_found = 0
+    for i in range(len(actual_tags)):
+        if (actual_tags[i] == predictions[i]):
+            total_found += 1
+    return total_found / len(predictions)</code></pre>
+</details>
+</dd>
+<dt id="phishfinder.evaluation.evaluation.is_ip"><code class="name flex">
+<span>def <span class="ident">is_ip</span></span>(<span>url)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check if URL contains an IP address inside</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_ip(url):
+    &#39;&#39;&#39;
+    Check if URL contains an IP address inside
+    &#39;&#39;&#39;
+    s =  url.find(&#39;//&#39;)
+    if s != -1 and len(url) &gt;= s + 14:
+        url = url[s+2:s+14]
+    return 1 if url.replace(&#39;.&#39;, &#39;&#39;).isnumeric() else 0</code></pre>
+</details>
+</dd>
+<dt id="phishfinder.evaluation.evaluation.precision"><code class="name flex">
+<span>def <span class="ident">precision</span></span>(<span>actual_tags, predictions, class_of_interest)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the precision for a specific class, given the ground truth and predicted values.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def precision(actual_tags, predictions, class_of_interest):
+    &#39;&#39;&#39;
+    Calculates the precision for a specific class, given the ground truth and predicted values.
+    &#39;&#39;&#39;
+    total_found = 0
+    for i in range(len(actual_tags)):
+        if (actual_tags[i] == class_of_interest and actual_tags[i] == predictions[i]):
+            total_found += 1
+    return total_found / np.count_nonzero(predictions == class_of_interest)</code></pre>
+</details>
+</dd>
+<dt id="phishfinder.evaluation.evaluation.prep_URL_data"><code class="name flex">
+<span>def <span class="ident">prep_URL_data</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def prep_URL_data():
+    X = process_input_data_URL()
+    ohe = OneHotEncoder(sparse=False, handle_unknown=&#39;ignore&#39;)
+   
+    y = X.pop(&#39;phishing&#39;).values
+    
+    feature_set = {&#39;insecure-protocol&#39;, &#39;is_ip&#39;, &#39;suspicious-chars&#39;, &#39;domain-length&#39;, &#39;suffix&#39;}
+    
+    X = X[feature_set].copy()
+    X_train, X_val, y_train, y_val = train_test_split(X, y, test_size = 0.2, random_state=2)
+
+    ohe.fit(X_train)
+    X_train_encoded = ohe.transform(X_train)
+    X_val_encoded = ohe.transform(X_val)
+
+    return X_train_encoded, y_train, X_val_encoded, y_val</code></pre>
+</details>
+</dd>
+<dt id="phishfinder.evaluation.evaluation.prep_domain_data"><code class="name flex">
+<span>def <span class="ident">prep_domain_data</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def prep_domain_data():
+    X = process_input_data_domain()
+
+    ohe = OneHotEncoder(sparse=False, handle_unknown=&#39;ignore&#39;)
+   
+    y = X.pop(&#39;phishing&#39;).values
+    
+    feature_set = {&#39;suspicious-chars&#39;, &#39;domain-length&#39;, &#39;issuer-name&#39;, &#39;issuer-country&#39;, &#39;cert-duration&#39;}
+    
+    X = X[feature_set].copy()
+    X_train, X_val, y_train, y_val = train_test_split(X, y, test_size = 0.2, random_state=2)
+
+    ohe.fit(X_train)
+    X_train_encoded = ohe.transform(X_train)
+    X_val_encoded = ohe.transform(X_val)
+
+    return X_train_encoded, y_train, X_val_encoded, y_val</code></pre>
+</details>
+</dd>
+<dt id="phishfinder.evaluation.evaluation.process_input_data_URL"><code class="name flex">
+<span>def <span class="ident">process_input_data_URL</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the dataframe containing information about benign and malicious URLs</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def process_input_data_URL():
+    &#39;&#39;&#39;
+    Returns the dataframe containing information about benign and malicious URLs
+    &#39;&#39;&#39;
+    df = pd.read_csv(pjoin(dirname(__file__), &#34;data/original_lists/data-benign.csv&#34;))
+    df[&#39;phishing&#39;] = df.apply(lambda row: 0, axis = 1)
+
+    df_malicious = pd.read_csv(pjoin(dirname(__file__), &#34;data/original_lists/data-malicious.csv&#34;))
+    df_malicious[&#39;phishing&#39;] = df_malicious.apply(lambda row: 1, axis = 1)
+
+    df = df.append(df_malicious, ignore_index = True)
+
+    #extract domain info and apply heuristics based on that info
+    df[&#39;subdomain&#39;] = df.apply(lambda row: tldextract.extract(row[&#39;link&#39;]).subdomain, axis = 1)
+    df[&#39;domain&#39;] = df.apply(lambda row: tldextract.extract(row[&#39;link&#39;]).domain, axis = 1)
+    df[&#39;suffix&#39;] = df.apply(lambda row: tldextract.extract(row[&#39;link&#39;]).suffix, axis = 1)
+    df[&#39;insecure_protocol&#39;] = df.apply(lambda row: use_http(row[&#39;link&#39;]), axis = 1)
+    df[&#39;is-ip&#39;] = df.apply(lambda row: is_ip(row[&#39;link&#39;]), axis = 1)
+    df[&#39;suspicious-chars&#39;] = df.apply(lambda row: suspicious_characters(row[&#39;link&#39;]), axis = 1)
+    df[&#39;domain-length&#39;] = df.apply(lambda row: len(row[&#39;subdomain&#39;]) + len(row[&#39;domain&#39;]), axis = 1)
+
+    #shuffle the dataframe
+    df = df.sample(frac=1).reset_index(drop=True)
+
+    return df</code></pre>
+</details>
+</dd>
+<dt id="phishfinder.evaluation.evaluation.process_input_data_domain"><code class="name flex">
+<span>def <span class="ident">process_input_data_domain</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the dataframe containing information about benign and malicious domains</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def process_input_data_domain():
+    &#39;&#39;&#39;
+    Returns the dataframe containing information about benign and malicious domains
+    &#39;&#39;&#39;
+    df = pd.read_csv(pjoin(dirname(__file__), &#34;data/training_data/benign_certs.csv&#34;))
+    df[&#39;phishing&#39;] = df.apply(lambda row: 0, axis = 1)
+
+    df_malicious = pd.read_csv(pjoin(dirname(__file__), &#34;data/training_data/malicious_certs.csv&#34;))
+    df_malicious[&#39;phishing&#39;] = df_malicious.apply(lambda row: 1, axis = 1)
+
+    df = df.append(df_malicious, ignore_index = True)
+
+    df.dropna(inplace=True)
+    
+    df[&#39;suspicious-chars&#39;] = df.apply(lambda row: suspicious_characters(row[&#39;domain-name&#39;]), axis = 1)
+    df[&#39;domain-length&#39;] = df.apply(lambda row: len(row[&#39;domain-name&#39;]), axis = 1)
+
+    #shuffle the dataframe
+    df = df.sample(frac=1).reset_index(drop=True)
+    df = df.iloc[:10000, :]
+
+
+    return df</code></pre>
+</details>
+</dd>
+<dt id="phishfinder.evaluation.evaluation.recall"><code class="name flex">
+<span>def <span class="ident">recall</span></span>(<span>actual_tags, predictions, class_of_interest)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the recall for a specific class, given the ground truth and predicted values.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def recall(actual_tags, predictions, class_of_interest):
+    &#39;&#39;&#39;
+    Calculates the recall for a specific class, given the ground truth and predicted values.
+    &#39;&#39;&#39;
+    total_found = 0
+    for i in range(len(actual_tags)):
+        if (actual_tags[i] == class_of_interest and actual_tags[i] == predictions[i]):
+            total_found += 1
+    return total_found / np.count_nonzero(actual_tags == class_of_interest)</code></pre>
+</details>
+</dd>
+<dt id="phishfinder.evaluation.evaluation.redirects"><code class="name flex">
+<span>def <span class="ident">redirects</span></span>(<span>url)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check if URL redirects you to another final URL</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def redirects(url):
+    &#39;&#39;&#39;
+    Check if URL redirects you to another final URL
+    &#39;&#39;&#39;
+    return False</code></pre>
+</details>
+</dd>
+<dt id="phishfinder.evaluation.evaluation.suspicious_characters"><code class="name flex">
+<span>def <span class="ident">suspicious_characters</span></span>(<span>url)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check if domain name contains suspicious characters such as '@'</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def suspicious_characters(url):
+    &#39;&#39;&#39;
+    Check if domain name contains suspicious characters such as &#39;@&#39;
+    &#39;&#39;&#39;
+    if isinstance(url, float):
+        print(url)
+    return 1 if &#39;@&#39; in url else 0</code></pre>
+</details>
+</dd>
+<dt id="phishfinder.evaluation.evaluation.train_and_evaluate_lr"><code class="name flex">
+<span>def <span class="ident">train_and_evaluate_lr</span></span>(<span>do_domain=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the accuracy, precision and recall of linear regression model based on URL training data</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def train_and_evaluate_lr(do_domain = True):
+    &#39;&#39;&#39;
+    Returns the accuracy, precision and recall of linear regression model based on URL training data
+    &#39;&#39;&#39;
+    if do_domain:
+        X_train_encoded, y_train, X_val_encoded, y_val = prep_domain_data()
+    else:
+        X_train_encoded, y_train, X_val_encoded, y_val = prep_URL_data()
+
+    clf_lr = LogisticRegression(solver=&#39;lbfgs&#39;, max_iter=1000, random_state=1).fit(X_train_encoded, y_train)
+    ##lr_train_predictions = clf_lr.predict(X_train_encoded)
+    
+    lr_val_predictions = clf_lr.predict(X_val_encoded)
+    return accuracy(y_val, lr_val_predictions), precision(y_val, lr_val_predictions, 1), recall(y_val, lr_val_predictions, 1)</code></pre>
+</details>
+</dd>
+<dt id="phishfinder.evaluation.evaluation.train_and_evaluate_mlp"><code class="name flex">
+<span>def <span class="ident">train_and_evaluate_mlp</span></span>(<span>do_domain=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the accuracy, precision and recall of multilayer perceptron model based on URL training data</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def train_and_evaluate_mlp(do_domain = True):
+    &#39;&#39;&#39;
+    Returns the accuracy, precision and recall of multilayer perceptron model based on URL training data
+    &#39;&#39;&#39;
+    if do_domain:
+        X_train_encoded, y_train, X_val_encoded, y_val = prep_domain_data()
+    else:
+        X_train_encoded, y_train, X_val_encoded, y_val = prep_URL_data()
+    clf_mlp = MLPClassifier(solver=&#39;lbfgs&#39;, alpha=1e-4, hidden_layer_sizes=(150, 150), random_state=5, max_iter=120, learning_rate_init=0.01, warm_start=True)
+    clf_mlp.fit(X_train_encoded, y_train)
+    #mlp_train_predictions = clf_mlp.predict(X_train_encoded)
+
+    mlp_val_predictions = clf_mlp.predict(X_val_encoded)
+    return accuracy(y_val, mlp_val_predictions), precision(y_val, mlp_val_predictions, 1), recall(y_val, mlp_val_predictions, 1)</code></pre>
+</details>
+</dd>
+<dt id="phishfinder.evaluation.evaluation.use_http"><code class="name flex">
+<span>def <span class="ident">use_http</span></span>(<span>url)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check if http:// is used instead of https://</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def use_http(url):
+    &#39;&#39;&#39;
+    Check if http:// is used instead of https://
+    &#39;&#39;&#39;
+    return 1 if &#39;http://&#39; in url else 0</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="phishfinder.evaluation" href="index.html">phishfinder.evaluation</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="phishfinder.evaluation.evaluation.accuracy" href="#phishfinder.evaluation.evaluation.accuracy">accuracy</a></code></li>
+<li><code><a title="phishfinder.evaluation.evaluation.is_ip" href="#phishfinder.evaluation.evaluation.is_ip">is_ip</a></code></li>
+<li><code><a title="phishfinder.evaluation.evaluation.precision" href="#phishfinder.evaluation.evaluation.precision">precision</a></code></li>
+<li><code><a title="phishfinder.evaluation.evaluation.prep_URL_data" href="#phishfinder.evaluation.evaluation.prep_URL_data">prep_URL_data</a></code></li>
+<li><code><a title="phishfinder.evaluation.evaluation.prep_domain_data" href="#phishfinder.evaluation.evaluation.prep_domain_data">prep_domain_data</a></code></li>
+<li><code><a title="phishfinder.evaluation.evaluation.process_input_data_URL" href="#phishfinder.evaluation.evaluation.process_input_data_URL">process_input_data_URL</a></code></li>
+<li><code><a title="phishfinder.evaluation.evaluation.process_input_data_domain" href="#phishfinder.evaluation.evaluation.process_input_data_domain">process_input_data_domain</a></code></li>
+<li><code><a title="phishfinder.evaluation.evaluation.recall" href="#phishfinder.evaluation.evaluation.recall">recall</a></code></li>
+<li><code><a title="phishfinder.evaluation.evaluation.redirects" href="#phishfinder.evaluation.evaluation.redirects">redirects</a></code></li>
+<li><code><a title="phishfinder.evaluation.evaluation.suspicious_characters" href="#phishfinder.evaluation.evaluation.suspicious_characters">suspicious_characters</a></code></li>
+<li><code><a title="phishfinder.evaluation.evaluation.train_and_evaluate_lr" href="#phishfinder.evaluation.evaluation.train_and_evaluate_lr">train_and_evaluate_lr</a></code></li>
+<li><code><a title="phishfinder.evaluation.evaluation.train_and_evaluate_mlp" href="#phishfinder.evaluation.evaluation.train_and_evaluate_mlp">train_and_evaluate_mlp</a></code></li>
+<li><code><a title="phishfinder.evaluation.evaluation.use_http" href="#phishfinder.evaluation.evaluation.use_http">use_http</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>

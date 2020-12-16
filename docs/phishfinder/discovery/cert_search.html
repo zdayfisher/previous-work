@@ -158,13 +158,12 @@ def search(domain, original_domain=&#39;N/A&#39;, drop_diplicates=True, include_
 
     result_index = 0
 
-    certs = crt().search(domain, wildcard=True, expired=False)
+    certs = crt().search(domain, wildcard=True, expired=include_expired)
 
     if isinstance(certs, type(None)):
         return result_dataframe
 
     for record in certs:
-        print(record)
         issuer_country, issuer_name = _issuer_regex(record[&#39;issuer_name&#39;])
 
         start_date = datetime.strptime(
@@ -275,13 +274,12 @@ certificate duration in days.</dd>
 
     result_index = 0
 
-    certs = crt().search(domain, wildcard=True, expired=False)
+    certs = crt().search(domain, wildcard=True, expired=include_expired)
 
     if isinstance(certs, type(None)):
         return result_dataframe
 
     for record in certs:
-        print(record)
         issuer_country, issuer_name = _issuer_regex(record[&#39;issuer_name&#39;])
 
         start_date = datetime.strptime(

@@ -160,6 +160,9 @@ def main():
         args.common_tld
     )
 
+    with open(&#39;projects/output.csv&#39;,&#39;w&#39;) as f:
+        f.write(discovery_results.to_csv(index=False))
+    
     # TODO: filter out domain names listed in a whitelist
 
     # TODO: Run the evaluation module
@@ -304,7 +307,10 @@ modules.</p></div>
         args.french_tld,
         args.english_tld,
         args.common_tld
-    )</code></pre>
+    )
+
+    with open(&#39;projects/output.csv&#39;,&#39;w&#39;) as f:
+        f.write(discovery_results.to_csv(index=False))</code></pre>
 </details>
 </dd>
 </dl>
