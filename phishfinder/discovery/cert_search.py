@@ -25,6 +25,7 @@ import re
 import pandas
 from datetime import date, datetime
 from tqdm import tqdm
+from requests.exceptions import ConnectionError
 
 
 def _issuer_regex(issuer_name_string):
@@ -56,11 +57,15 @@ def _search_from_list_of_dictionaries(list_of_dict):
     result_dataframes = []
 
     for dictionary in tqdm(list_of_dict, desc='Searching for domain certificates', unit='domains'):
-        search_result_df = search(
-            dictionary['domain-name'],
-            dictionary['original-domain'],
-            drop_diplicates=False
-        )
+        try:
+            search_result_df = search(
+                dictionary['domain-name'],
+                dictionary['original-domain'],
+                drop_diplicates=False
+            )
+        except ConnectionError:
+            print(f'Failed to retrieve certificates for {dictionary["domain-name"]}')
+            pass
 
         search_result_df['fuzzer'] = [dictionary['fuzzer'] for i in range(search_result_df.shape[0])]
 
