@@ -1,3 +1,41 @@
+"""
+Main evaluation module.
+
+This module provides the evaluate function which acts as a pipeline for
+the evaluation module.
+
+Purpose
+-------
+Process domain  data provided by discovery module.
+Train the Logistic Regression or Multi-Layer Perceptron Classifier
+using the processed data and evaluate model's performance based on its
+accuracy, precision and recall.
+Use the trained model to decide whether unclassified domains are benign
+or phishing.
+
+Non-Public Functions
+--------------------
+
+.. note:: Non-public functions are not part of this API documentation.
+    More information about these functions can be found in the source code
+    in the form of docstrings.
+
+- `is_ip`
+- `suspicious_characters`
+- `use_http`
+- `redirects`
+- `process_input_data_domain`: Processes csv file containing training data with domain information.
+- `process_unknown_data_domain`: Processes csv file containing unclassified data with domain information.
+- `prep_domain_data`: Selects a limited feature set for known and unknown data and performs One-Hot Encoding
+- `train_lr`: Creates a Logistic Regression model and peerfmorms training using provided training data.
+- `train_mlp`: Creates a Multi-Layer Perceptron model and peerfmorms training using provided training data.
+- `recall`: Calculates the recall for a specific class, given the ground truth and predicted values.
+- `precision`: Calculates the precision for a specific class, given the ground truth and predicted values.
+- `accuracy`: Calculates the accuracy for a specific class, given the ground truth and predicted values.
+- `evaluate`: Evaluates accuracy, precision and recall of a model using provided testing data.
+- `is_benign`: Returns a string representation for benign and malicious classes
+"""
+
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
@@ -7,8 +45,10 @@ import datetime
 import pandas as pd
 import numpy as np
 import tldextract
+import pickle
 
 from os.path import dirname, join as pjoin
+
 
 
 def is_ip(url):
@@ -24,8 +64,6 @@ def suspicious_characters(url):
     '''
     Check if domain name contains suspicious characters such as '@'
     '''
-    if isinstance(url, float):
-        print(url)
     return 1 if '@' in url else 0
 
 def use_http(url):
@@ -40,33 +78,7 @@ def redirects(url):
     '''
     return False
 
-def process_input_data_URL():
-    '''
-    Returns the dataframe containing information about benign and malicious URLs
-    '''
-    df = pd.read_csv(pjoin(dirname(__file__), "data/original_lists/data-benign.csv"))
-    df['phishing'] = df.apply(lambda row: 0, axis = 1)
-
-    df_malicious = pd.read_csv(pjoin(dirname(__file__), "data/original_lists/data-malicious.csv"))
-    df_malicious['phishing'] = df_malicious.apply(lambda row: 1, axis = 1)
-
-    df = df.append(df_malicious, ignore_index = True)
-
-    #extract domain info and apply heuristics based on that info
-    df['subdomain'] = df.apply(lambda row: tldextract.extract(row['link']).subdomain, axis = 1)
-    df['domain'] = df.apply(lambda row: tldextract.extract(row['link']).domain, axis = 1)
-    df['suffix'] = df.apply(lambda row: tldextract.extract(row['link']).suffix, axis = 1)
-    df['insecure_protocol'] = df.apply(lambda row: use_http(row['link']), axis = 1)
-    df['is-ip'] = df.apply(lambda row: is_ip(row['link']), axis = 1)
-    df['suspicious-chars'] = df.apply(lambda row: suspicious_characters(row['link']), axis = 1)
-    df['domain-length'] = df.apply(lambda row: len(row['subdomain']) + len(row['domain']), axis = 1)
-
-    #shuffle the dataframe
-    df = df.sample(frac=1).reset_index(drop=True)
-
-    return df
-
-def process_input_data_domain():
+def process_input_data_domain(max_rows):
     '''
     Returns the dataframe containing information about benign and malicious domains
     '''
@@ -85,14 +97,61 @@ def process_input_data_domain():
 
     #shuffle the dataframe
     df = df.sample(frac=1).reset_index(drop=True)
-    df = df.iloc[:10000, :]
-
+    df = df.iloc[:max_rows, :]
 
     return df
 
+def process_unknown_data_domain():
+    '''
+    Returns the dataframe retrieved by discovery module that needs to be classified.
+    '''
+    df = pd.read_csv(pjoin(dirname(__file__), "data/test_data/netflix_test.csv"))
+    print(df.head(10))
+    
+    df['suspicious-chars'] = df.apply(lambda row: suspicious_characters(row['domain-name']), axis = 1)
+    df['domain-length'] = df.apply(lambda row: len(row['domain-name']), axis = 1)
 
+    #shuffle the dataframe
+    #df = df.sample(frac=1).reset_index(drop=True)
+    df = df.iloc[:100, :]
 
+    return df
 #Model Evaluation Metrics
+def prep_domain_data(max_rows):
+    '''
+    Return the One-Hot Encoded version of the train and test split dataframes for the following featureset of the domain certificate data:
+        - 'suspicious-chars'
+        - 'domain-length'
+        - 'issuer-name'
+        - 'issuer-country'
+        - 'cert-duration'
+        - 'issuer-country-count'
+    '''
+    feature_set = {'suspicious-chars', 'domain-length', 'issuer-name', 'issuer-country', 'cert-duration', 'issuer-country-count'}
+    X = process_input_data_domain(max_rows)
+    X_unknown = process_unknown_data_domain()
+
+    ohe = OneHotEncoder(sparse=False, handle_unknown='ignore')
+   
+    y = X.pop('phishing').values
+
+    X1 = X.groupby('domain-name')['issuer-country'].nunique()  
+    X = X.join(X1, on='domain-name', rsuffix='-count')
+
+
+    X2 = X_unknown.groupby('domain-name')['issuer-country'].nunique()
+    X_unknown = X_unknown.join(X2, on='domain-name', rsuffix='-count')
+    
+    X = X[feature_set].copy()
+    X_unknown = X_unknown[feature_set].copy()
+
+    X_train, X_val, y_train, y_val = train_test_split(X, y, test_size = 0.1, random_state=2)
+    ohe.fit(X_train)
+    X_train_encoded = ohe.transform(X_train)
+    X_val_encoded = ohe.transform(X_val)
+    X_unknown_encoded = ohe.transform(X_unknown)
+
+    return X_train_encoded, y_train, X_val_encoded, y_val, X_unknown_encoded
 
 def recall(actual_tags, predictions, class_of_interest):
     '''
@@ -126,72 +185,58 @@ def accuracy(actual_tags, predictions):
             total_found += 1
     return total_found / len(predictions)
 
-def prep_URL_data():
-    X = process_input_data_URL()
-    ohe = OneHotEncoder(sparse=False, handle_unknown='ignore')
-   
-    y = X.pop('phishing').values
-    
-    feature_set = {'insecure-protocol', 'is_ip', 'suspicious-chars', 'domain-length', 'suffix'}
-    
-    X = X[feature_set].copy()
-    X_train, X_val, y_train, y_val = train_test_split(X, y, test_size = 0.2, random_state=2)
-
-    ohe.fit(X_train)
-    X_train_encoded = ohe.transform(X_train)
-    X_val_encoded = ohe.transform(X_val)
-
-    return X_train_encoded, y_train, X_val_encoded, y_val
-
-def prep_domain_data():
-    X = process_input_data_domain()
-
-    ohe = OneHotEncoder(sparse=False, handle_unknown='ignore')
-   
-    y = X.pop('phishing').values
-    
-    feature_set = {'suspicious-chars', 'domain-length', 'issuer-name', 'issuer-country', 'cert-duration'}
-    
-    X = X[feature_set].copy()
-    X_train, X_val, y_train, y_val = train_test_split(X, y, test_size = 0.2, random_state=2)
-
-    ohe.fit(X_train)
-    X_train_encoded = ohe.transform(X_train)
-    X_val_encoded = ohe.transform(X_val)
-
-    return X_train_encoded, y_train, X_val_encoded, y_val
-
-def train_and_evaluate_lr(do_domain = True):
+def train_lr(X_train, y_train):
     '''
-    Returns the accuracy, precision and recall of linear regression model based on URL training data
+    Returns a Logistic Regression classifier trained based on provided data.
     '''
-    if do_domain:
-        X_train_encoded, y_train, X_val_encoded, y_val = prep_domain_data()
+    clf_lr = LogisticRegression(solver='lbfgs', max_iter=1000, random_state=1).fit(X_train, y_train)
+    return clf_lr
+
+def train_mlp(X_train, y_train):
+    '''
+    Returns a Multi-Layer Perceptron classifier trained based on provided data
+    '''
+    clf_mlp = MLPClassifier(solver='lbfgs', alpha=1e-4, hidden_layer_sizes=(150, 150), random_state=5, max_iter=200, learning_rate_init=0.01, warm_start=True)
+    clf_mlp.fit(X_train, y_train)
+
+    return clf_mlp
+
+def evaluate(model, X_val, y_val):
+    '''
+    Returns model's accuracy, precision, and recall for class 1 (Malicious) data.
+    '''
+    predictions = model.predict(X_val)
+    return accuracy(y_val, predictions), precision(y_val, predictions, 1), recall(y_val, predictions, 1)
+
+def is_benign(row):
+    if row == 1:
+        return 'malicious'
     else:
-        X_train_encoded, y_train, X_val_encoded, y_val = prep_URL_data()
-
-    clf_lr = LogisticRegression(solver='lbfgs', max_iter=1000, random_state=1).fit(X_train_encoded, y_train)
-    ##lr_train_predictions = clf_lr.predict(X_train_encoded)
+        return 'benign'
+def evaluation(file_name = '', benign_path = '', malicious_path = '', use_mlp = True, max_rows = 50000):
+    X_train, y_train, X_val, y_val, X_unknown = prep_domain_data(max_rows)
+    mlp_model = train_mlp(X_train, y_train)
     
-    lr_val_predictions = clf_lr.predict(X_val_encoded)
-    return accuracy(y_val, lr_val_predictions), precision(y_val, lr_val_predictions, 1), recall(y_val, lr_val_predictions, 1)
+    train_accuracy, train_prec, train_recall = evaluate(mlp_model, X_train, y_train)
+    test_accuracy, test_prec, test_recall = evaluate(mlp_model, X_val, y_val)
+    
+    print("Accuracy for training data:", train_accuracy)
+    print("Precision for training data:", train_prec)
+    print("Recall for training data:", train_recall)
+    print("Accuracy for test data:", test_accuracy)
+    print("Precision for test data:", test_prec)
+    print("Recall for test data:", test_recall)
+    
+    predictions = mlp_model.predict(X_unknown)
+    
+    unknown_df = process_unknown_data_domain()
+    unknown_df['prediction'] = predictions
+    unknown_df['prediction'] = unknown_df.apply(lambda row: is_benign(row)), axis = 1)
+
+    print(unknown_df.head(10))
 
 
-def train_and_evaluate_mlp(do_domain = True):
-    '''
-    Returns the accuracy, precision and recall of multilayer perceptron model based on URL training data
-    '''
-    if do_domain:
-        X_train_encoded, y_train, X_val_encoded, y_val = prep_domain_data()
-    else:
-        X_train_encoded, y_train, X_val_encoded, y_val = prep_URL_data()
-    clf_mlp = MLPClassifier(solver='lbfgs', alpha=1e-4, hidden_layer_sizes=(150, 150), random_state=5, max_iter=120, learning_rate_init=0.01, warm_start=True)
-    clf_mlp.fit(X_train_encoded, y_train)
-    #mlp_train_predictions = clf_mlp.predict(X_train_encoded)
-
-    mlp_val_predictions = clf_mlp.predict(X_val_encoded)
-    return accuracy(y_val, mlp_val_predictions), precision(y_val, mlp_val_predictions, 1), recall(y_val, mlp_val_predictions, 1)
+    return unknown_df
 
 if __name__ == '__main__':
-    print(train_and_evaluate_mlp())
-    print(train_and_evaluate_lr())
+    evaluation()
