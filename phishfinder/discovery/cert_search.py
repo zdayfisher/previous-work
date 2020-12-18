@@ -4,6 +4,12 @@ Domain certificate search module.
 This module provides several functions allowing to retrieve
 certificate information for domains from crt.sh.
 
+This module uses the crtsh unofficial API:
+[https://github.com/PaulSec/crt.sh](https://github.com/PaulSec/crt.sh).
+
+.. important:: The crtsh package is licensed under the MIT License by Paul (PaulSec on Github).
+    A copy of the license can be found in the root of the project in `LICENSE_MIT.txt`.
+
 Purpose
 -------
 Provide the Discovery pipeline the ability to retrieve certificate

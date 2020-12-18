@@ -39,9 +39,9 @@ HTTPs services on a given domain.</p>
 below to view the docstrings in the source code.</p>
 </div>
 <ul>
-<li><code>_create_batch_strings</code>: Creates a string of domains with less than
-25k characters in length to allow for HTTProbe to be ran without
-argument length issues.</li>
+<li><code>_create_batch_strings</code>: Creates a list of strings of domains separated by '\n'.
+Each string is less than 25k characters in length to allow for HTTProbe to run without
+terminal argument length issues.</li>
 </ul>
 <details class="source">
 <summary>
@@ -68,9 +68,9 @@ Non-Public Functions
     For more information on these functions, click &#34;Expand Source Code&#34;
     below to view the docstrings in the source code.
 
-- `_create_batch_strings`: Creates a string of domains with less than
-    25k characters in length to allow for HTTProbe to be ran without
-    argument length issues.
+- `_create_batch_strings`: Creates a list of strings of domains separated by &#39;\\n&#39;.
+    Each string is less than 25k characters in length to allow for HTTProbe to run without
+    terminal argument length issues.
 &#34;&#34;&#34;
 
 from subprocess import run, Popen, PIPE

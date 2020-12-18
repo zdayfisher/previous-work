@@ -17,23 +17,23 @@ Non-Public Functions
 --------------------
 
 .. note:: Non-public functions are not part of this API documentation.
-    More information about these functions can be found in the source code
-    in the form of docstrings.
+    For more information on these functions, click "Expand Source Code"
+    below to view the docstrings in the source code.
 
-- `is_ip`
-- `suspicious_characters`
-- `use_http`
-- `redirects`
-- `process_input_data_domain`: Processes csv file containing training data with domain information.
-- `process_unknown_data_domain`: Processes csv file containing unclassified data with domain information.
-- `prep_domain_data`: Selects a limited feature set for known and unknown data and performs One-Hot Encoding
-- `train_lr`: Creates a Logistic Regression model and peerfmorms training using provided training data.
-- `train_mlp`: Creates a Multi-Layer Perceptron model and peerfmorms training using provided training data.
-- `recall`: Calculates the recall for a specific class, given the ground truth and predicted values.
-- `precision`: Calculates the precision for a specific class, given the ground truth and predicted values.
-- `accuracy`: Calculates the accuracy for a specific class, given the ground truth and predicted values.
-- `evaluate`: Evaluates accuracy, precision and recall of a model using provided testing data.
-- `is_benign`: Returns a string representation for benign and malicious classes
+- `_is_ip`
+- `_suspicious_characters`
+- `_use_http`
+- `_redirects`
+- `_process_input_data_domain`: Processes csv file containing training data with domain information.
+- `_process_unknown_data_domain`: Processes csv file containing unclassified data with domain information.
+- `_prep_domain_data`: Selects a limited feature set for known and unknown data and performs One-Hot Encoding
+- `_train_lr`: Creates a Logistic Regression model and peerfmorms training using provided training data.
+- `_train_mlp`: Creates a Multi-Layer Perceptron model and peerfmorms training using provided training data.
+- `_recall`: Calculates the recall for a specific class, given the ground truth and predicted values.
+- `_precision`: Calculates the precision for a specific class, given the ground truth and predicted values.
+- `_accuracy`: Calculates the accuracy for a specific class, given the ground truth and predicted values.
+- `_evaluate`: Evaluates accuracy, precision and recall of a model using provided testing data.
+- `_is_benign`: Returns a string representation for benign and malicious classes
 """
 
 from sklearn.linear_model import LogisticRegression
@@ -51,7 +51,7 @@ from os.path import dirname, join as pjoin
 
 
 
-def is_ip(url):
+def _is_ip(url):
     '''
     Check if URL contains an IP address inside
     '''
@@ -60,25 +60,25 @@ def is_ip(url):
         url = url[s+2:s+14]
     return 1 if url.replace('.', '').isnumeric() else 0
 
-def suspicious_characters(url):
+def _suspicious_characters(url):
     '''
     Check if domain name contains suspicious characters such as '@'
     '''
     return 1 if '@' in url else 0
 
-def use_http(url):
+def _use_http(url):
     '''
     Check if http:// is used instead of https://
     '''
     return 1 if 'http://' in url else 0
 
-def redirects(url):
+def _redirects(url):
     '''
     Check if URL redirects you to another final URL
     '''
     return False
 
-def process_input_data_domain(max_rows):
+def _process_input_data_domain(max_rows):
     '''
     Returns the dataframe containing information about benign and malicious domains
     '''
@@ -92,7 +92,7 @@ def process_input_data_domain(max_rows):
 
     df.dropna(inplace=True)
     
-    df['suspicious-chars'] = df.apply(lambda row: suspicious_characters(row['domain-name']), axis = 1)
+    df['suspicious-chars'] = df.apply(lambda row: _suspicious_characters(row['domain-name']), axis = 1)
     df['domain-length'] = df.apply(lambda row: len(row['domain-name']), axis = 1)
 
     #shuffle the dataframe
@@ -101,12 +101,12 @@ def process_input_data_domain(max_rows):
 
     return df
 
-def process_unknown_data_domain(df):
+def _process_unknown_data_domain(df):
     '''
     Returns the dataframe retrieved by discovery module that needs to be classified.
     '''
     
-    df['suspicious-chars'] = df.apply(lambda row: suspicious_characters(row['domain-name']), axis = 1)
+    df['suspicious-chars'] = df.apply(lambda row: _suspicious_characters(row['domain-name']), axis = 1)
     df['domain-length'] = df.apply(lambda row: len(row['domain-name']), axis = 1)
 
     #shuffle the dataframe
@@ -116,7 +116,7 @@ def process_unknown_data_domain(df):
     return df
 
 
-def prep_domain_data(discovery_results, max_rows):
+def _prep_domain_data(discovery_results, max_rows):
     '''
     Return the One-Hot Encoded version of the train and test split dataframes for the following featureset of the domain certificate data:
         - 'suspicious-chars'
@@ -127,8 +127,8 @@ def prep_domain_data(discovery_results, max_rows):
         - 'issuer-country-count'
     '''
     feature_set = {'suspicious-chars', 'domain-length', 'issuer-name', 'issuer-country', 'cert-duration', 'issuer-country-count'}
-    X = process_input_data_domain(max_rows)
-    X_unknown = process_unknown_data_domain(discovery_results)
+    X = _process_input_data_domain(max_rows)
+    X_unknown = _process_unknown_data_domain(discovery_results)
 
     ohe = OneHotEncoder(sparse=False, handle_unknown='ignore')
    
@@ -152,7 +152,7 @@ def prep_domain_data(discovery_results, max_rows):
 
     return X_train_encoded, y_train, X_val_encoded, y_val, X_unknown_encoded
 
-def recall(actual_tags, predictions, class_of_interest):
+def _recall(actual_tags, predictions, class_of_interest):
     '''
     Calculates the recall for a specific class, given the ground truth and predicted values.
     '''
@@ -162,7 +162,7 @@ def recall(actual_tags, predictions, class_of_interest):
             total_found += 1
     return total_found / np.count_nonzero(actual_tags == class_of_interest)
 
-def precision(actual_tags, predictions, class_of_interest):
+def _precision(actual_tags, predictions, class_of_interest):
     '''
     Calculates the precision for a specific class, given the ground truth and predicted values.
     '''
@@ -172,7 +172,7 @@ def precision(actual_tags, predictions, class_of_interest):
             total_found += 1
     return total_found / np.count_nonzero(predictions == class_of_interest)
 
-def accuracy(actual_tags, predictions):
+def _accuracy(actual_tags, predictions):
     '''
     Calculates the average number of correct predictions.
         - actual_tags: The ground truth
@@ -184,14 +184,14 @@ def accuracy(actual_tags, predictions):
             total_found += 1
     return total_found / len(predictions)
 
-def train_lr(X_train, y_train):
+def _train_lr(X_train, y_train):
     '''
     Returns a Logistic Regression classifier trained based on provided data.
     '''
     clf_lr = LogisticRegression(solver='lbfgs', max_iter=1000, random_state=1).fit(X_train, y_train)
     return clf_lr
 
-def train_mlp(X_train, y_train):
+def _train_mlp(X_train, y_train):
     '''
     Returns a Multi-Layer Perceptron classifier trained based on provided data
     '''
@@ -200,14 +200,14 @@ def train_mlp(X_train, y_train):
 
     return clf_mlp
 
-def evaluate(model, X_val, y_val):
+def _evaluate(model, X_val, y_val):
     '''
     Returns model's accuracy, precision, and recall for class 1 (Malicious) data.
     '''
     predictions = model.predict(X_val)
-    return accuracy(y_val, predictions), precision(y_val, predictions, 1), recall(y_val, predictions, 1)
+    return _accuracy(y_val, predictions), _precision(y_val, predictions, 1), _recall(y_val, predictions, 1)
 
-def is_benign(row):
+def _is_benign(row):
     '''
     Returns string representation for 1 (Malicious) and 0 (Benign) classes
     '''
@@ -241,12 +241,12 @@ def evaluation(discovery_results, max_rows = 100000):
         discovery_results = pd.read_csv(pjoin(dirname(__file__), "data/test_data/netflix_test.csv"))
     
     for i in tqdm(range(1)):
-        X_train, y_train, X_val, y_val, X_unknown = prep_domain_data(discovery_results, max_rows)
-    mlp_model = train_mlp(X_train, y_train)
+        X_train, y_train, X_val, y_val, X_unknown = _prep_domain_data(discovery_results, max_rows)
+    mlp_model = _train_mlp(X_train, y_train)
 
 
-    train_accuracy, train_prec, train_recall = evaluate(mlp_model, X_train, y_train)
-    test_accuracy, test_prec, test_recall = evaluate(mlp_model, X_val, y_val)
+    train_accuracy, train_prec, train_recall = _evaluate(mlp_model, X_train, y_train)
+    test_accuracy, test_prec, test_recall = _evaluate(mlp_model, X_val, y_val)
     
     print("Accuracy for training data:", train_accuracy)
     print("Precision for training data:", train_prec)
@@ -257,9 +257,9 @@ def evaluation(discovery_results, max_rows = 100000):
     
     predictions = mlp_model.predict(X_unknown)
     
-    unknown_df = process_unknown_data_domain(discovery_results)
+    unknown_df = _process_unknown_data_domain(discovery_results)
     unknown_df['prediction'] = predictions
-    unknown_df['prediction'] = unknown_df.apply(lambda row: is_benign(row['prediction']), axis = 1)
+    unknown_df['prediction'] = unknown_df.apply(lambda row: _is_benign(row['prediction']), axis = 1)
 
     print(unknown_df.head(10))
 

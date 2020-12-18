@@ -6,7 +6,7 @@ This module is a wrapper for the DNSTwist tool:
 
 .. important:: DNSTwist is licensed under the Apache2.0 License by Marcin Ulikowski.
     A copy of the license can be found at http://www.apache.org/licenses/LICENSE-2.0
-    or in the root of the project in `LICENSE_dnstwist.txt`.
+    or in the root of the project in `LICENSE_Apache2.0.txt`.
 
     Some parts of the original tool were modified and incorporated into
     `process_existing_domains`.
@@ -163,7 +163,7 @@ def process_existing_domains(original_domain, domains=[], thread_count=10):
     """
     Processes domains to obtain various informations.
 
-    .. note:: This method is slightly modified section of code from
+    .. note:: This method is a slightly modified section of code from
         from [dnstwist.main](https://github.com/elceef/dnstwist/blob/master/dnstwist.py)
         which processes domains through ssdeep, mx verification,
         and geoip verification.

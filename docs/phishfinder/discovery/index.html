@@ -27,7 +27,14 @@ on domains …" />
 <h1 id="discovery-module">Discovery Module</h1>
 <p>The discovery module provides submodules which can be used to generate and gather various information
 on domains.</p>
-<p>Further information on this module can be found within the module's documentation.</p>
+<p>It provides the main discovery pipeline for PhishFinder which includes:</p>
+<ol>
+<li>Domain generation using DNSTwist</li>
+<li>Domain certificate search for generated domains</li>
+<li>HTTP and HTTPS services probe on domains found having certificates using HTTProbe</li>
+<li>Gathering additional information such as ssdeep score, MX services, etc. using DNSTwist components</li>
+</ol>
+<p>Further information on this module or pipeline can be found within the submodules' documentation.</p>
 <p>This module can be used as a standalone from the PhishFinder package. Each submodule provides
 public functions.</p>
 <details class="source">
@@ -39,7 +46,14 @@ public functions.</p>
 The discovery module provides submodules which can be used to generate and gather various information
 on domains.
 
-Further information on this module can be found within the module&#39;s documentation.
+It provides the main discovery pipeline for PhishFinder which includes:
+
+1. Domain generation using DNSTwist
+2. Domain certificate search for generated domains
+3. HTTP and HTTPS services probe on domains found having certificates using HTTProbe
+4. Gathering additional information such as ssdeep score, MX services, etc. using DNSTwist components
+
+Further information on this module or pipeline can be found within the submodules&#39; documentation.
 
 This module can be used as a standalone from the PhishFinder package. Each submodule provides
 public functions.

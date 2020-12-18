@@ -36,24 +36,24 @@ or phishing.</p>
 <h2 id="non-public-functions">Non-Public Functions</h2>
 <div class="admonition note">
 <p class="admonition-title">Note:&ensp;Non-public functions are not part of this API documentation.</p>
-<p>More information about these functions can be found in the source code
-in the form of docstrings.</p>
+<p>For more information on these functions, click "Expand Source Code"
+below to view the docstrings in the source code.</p>
 </div>
 <ul>
-<li><code><a title="phishfinder.evaluation.evaluation.is_ip" href="#phishfinder.evaluation.evaluation.is_ip">is_ip()</a></code></li>
-<li><code><a title="phishfinder.evaluation.evaluation.suspicious_characters" href="#phishfinder.evaluation.evaluation.suspicious_characters">suspicious_characters()</a></code></li>
-<li><code><a title="phishfinder.evaluation.evaluation.use_http" href="#phishfinder.evaluation.evaluation.use_http">use_http()</a></code></li>
-<li><code><a title="phishfinder.evaluation.evaluation.redirects" href="#phishfinder.evaluation.evaluation.redirects">redirects()</a></code></li>
-<li><code><a title="phishfinder.evaluation.evaluation.process_input_data_domain" href="#phishfinder.evaluation.evaluation.process_input_data_domain">process_input_data_domain()</a></code>: Processes csv file containing training data with domain information.</li>
-<li><code><a title="phishfinder.evaluation.evaluation.process_unknown_data_domain" href="#phishfinder.evaluation.evaluation.process_unknown_data_domain">process_unknown_data_domain()</a></code>: Processes csv file containing unclassified data with domain information.</li>
-<li><code><a title="phishfinder.evaluation.evaluation.prep_domain_data" href="#phishfinder.evaluation.evaluation.prep_domain_data">prep_domain_data()</a></code>: Selects a limited feature set for known and unknown data and performs One-Hot Encoding</li>
-<li><code><a title="phishfinder.evaluation.evaluation.train_lr" href="#phishfinder.evaluation.evaluation.train_lr">train_lr()</a></code>: Creates a Logistic Regression model and peerfmorms training using provided training data.</li>
-<li><code><a title="phishfinder.evaluation.evaluation.train_mlp" href="#phishfinder.evaluation.evaluation.train_mlp">train_mlp()</a></code>: Creates a Multi-Layer Perceptron model and peerfmorms training using provided training data.</li>
-<li><code><a title="phishfinder.evaluation.evaluation.recall" href="#phishfinder.evaluation.evaluation.recall">recall()</a></code>: Calculates the recall for a specific class, given the ground truth and predicted values.</li>
-<li><code><a title="phishfinder.evaluation.evaluation.precision" href="#phishfinder.evaluation.evaluation.precision">precision()</a></code>: Calculates the precision for a specific class, given the ground truth and predicted values.</li>
-<li><code><a title="phishfinder.evaluation.evaluation.accuracy" href="#phishfinder.evaluation.evaluation.accuracy">accuracy()</a></code>: Calculates the accuracy for a specific class, given the ground truth and predicted values.</li>
-<li><code><a title="phishfinder.evaluation.evaluation.evaluate" href="#phishfinder.evaluation.evaluation.evaluate">evaluate()</a></code>: Evaluates accuracy, precision and recall of a model using provided testing data.</li>
-<li><code><a title="phishfinder.evaluation.evaluation.is_benign" href="#phishfinder.evaluation.evaluation.is_benign">is_benign()</a></code>: Returns a string representation for benign and malicious classes</li>
+<li><code>_is_ip</code></li>
+<li><code>_suspicious_characters</code></li>
+<li><code>_use_http</code></li>
+<li><code>_redirects</code></li>
+<li><code>_process_input_data_domain</code>: Processes csv file containing training data with domain information.</li>
+<li><code>_process_unknown_data_domain</code>: Processes csv file containing unclassified data with domain information.</li>
+<li><code>_prep_domain_data</code>: Selects a limited feature set for known and unknown data and performs One-Hot Encoding</li>
+<li><code>_train_lr</code>: Creates a Logistic Regression model and peerfmorms training using provided training data.</li>
+<li><code>_train_mlp</code>: Creates a Multi-Layer Perceptron model and peerfmorms training using provided training data.</li>
+<li><code>_recall</code>: Calculates the recall for a specific class, given the ground truth and predicted values.</li>
+<li><code>_precision</code>: Calculates the precision for a specific class, given the ground truth and predicted values.</li>
+<li><code>_accuracy</code>: Calculates the accuracy for a specific class, given the ground truth and predicted values.</li>
+<li><code>_evaluate</code>: Evaluates accuracy, precision and recall of a model using provided testing data.</li>
+<li><code>_is_benign</code>: Returns a string representation for benign and malicious classes</li>
 </ul>
 <details class="source">
 <summary>
@@ -78,23 +78,23 @@ Non-Public Functions
 --------------------
 
 .. note:: Non-public functions are not part of this API documentation.
-    More information about these functions can be found in the source code
-    in the form of docstrings.
+    For more information on these functions, click &#34;Expand Source Code&#34;
+    below to view the docstrings in the source code.
 
-- `is_ip`
-- `suspicious_characters`
-- `use_http`
-- `redirects`
-- `process_input_data_domain`: Processes csv file containing training data with domain information.
-- `process_unknown_data_domain`: Processes csv file containing unclassified data with domain information.
-- `prep_domain_data`: Selects a limited feature set for known and unknown data and performs One-Hot Encoding
-- `train_lr`: Creates a Logistic Regression model and peerfmorms training using provided training data.
-- `train_mlp`: Creates a Multi-Layer Perceptron model and peerfmorms training using provided training data.
-- `recall`: Calculates the recall for a specific class, given the ground truth and predicted values.
-- `precision`: Calculates the precision for a specific class, given the ground truth and predicted values.
-- `accuracy`: Calculates the accuracy for a specific class, given the ground truth and predicted values.
-- `evaluate`: Evaluates accuracy, precision and recall of a model using provided testing data.
-- `is_benign`: Returns a string representation for benign and malicious classes
+- `_is_ip`
+- `_suspicious_characters`
+- `_use_http`
+- `_redirects`
+- `_process_input_data_domain`: Processes csv file containing training data with domain information.
+- `_process_unknown_data_domain`: Processes csv file containing unclassified data with domain information.
+- `_prep_domain_data`: Selects a limited feature set for known and unknown data and performs One-Hot Encoding
+- `_train_lr`: Creates a Logistic Regression model and peerfmorms training using provided training data.
+- `_train_mlp`: Creates a Multi-Layer Perceptron model and peerfmorms training using provided training data.
+- `_recall`: Calculates the recall for a specific class, given the ground truth and predicted values.
+- `_precision`: Calculates the precision for a specific class, given the ground truth and predicted values.
+- `_accuracy`: Calculates the accuracy for a specific class, given the ground truth and predicted values.
+- `_evaluate`: Evaluates accuracy, precision and recall of a model using provided testing data.
+- `_is_benign`: Returns a string representation for benign and malicious classes
 &#34;&#34;&#34;
 
 from sklearn.linear_model import LogisticRegression
@@ -112,7 +112,7 @@ from os.path import dirname, join as pjoin
 
 
 
-def is_ip(url):
+def _is_ip(url):
     &#39;&#39;&#39;
     Check if URL contains an IP address inside
     &#39;&#39;&#39;
@@ -121,25 +121,25 @@ def is_ip(url):
         url = url[s+2:s+14]
     return 1 if url.replace(&#39;.&#39;, &#39;&#39;).isnumeric() else 0
 
-def suspicious_characters(url):
+def _suspicious_characters(url):
     &#39;&#39;&#39;
     Check if domain name contains suspicious characters such as &#39;@&#39;
     &#39;&#39;&#39;
     return 1 if &#39;@&#39; in url else 0
 
-def use_http(url):
+def _use_http(url):
     &#39;&#39;&#39;
     Check if http:// is used instead of https://
     &#39;&#39;&#39;
     return 1 if &#39;http://&#39; in url else 0
 
-def redirects(url):
+def _redirects(url):
     &#39;&#39;&#39;
     Check if URL redirects you to another final URL
     &#39;&#39;&#39;
     return False
 
-def process_input_data_domain(max_rows):
+def _process_input_data_domain(max_rows):
     &#39;&#39;&#39;
     Returns the dataframe containing information about benign and malicious domains
     &#39;&#39;&#39;
@@ -153,7 +153,7 @@ def process_input_data_domain(max_rows):
 
     df.dropna(inplace=True)
     
-    df[&#39;suspicious-chars&#39;] = df.apply(lambda row: suspicious_characters(row[&#39;domain-name&#39;]), axis = 1)
+    df[&#39;suspicious-chars&#39;] = df.apply(lambda row: _suspicious_characters(row[&#39;domain-name&#39;]), axis = 1)
     df[&#39;domain-length&#39;] = df.apply(lambda row: len(row[&#39;domain-name&#39;]), axis = 1)
 
     #shuffle the dataframe
@@ -162,12 +162,12 @@ def process_input_data_domain(max_rows):
 
     return df
 
-def process_unknown_data_domain(df):
+def _process_unknown_data_domain(df):
     &#39;&#39;&#39;
     Returns the dataframe retrieved by discovery module that needs to be classified.
     &#39;&#39;&#39;
     
-    df[&#39;suspicious-chars&#39;] = df.apply(lambda row: suspicious_characters(row[&#39;domain-name&#39;]), axis = 1)
+    df[&#39;suspicious-chars&#39;] = df.apply(lambda row: _suspicious_characters(row[&#39;domain-name&#39;]), axis = 1)
     df[&#39;domain-length&#39;] = df.apply(lambda row: len(row[&#39;domain-name&#39;]), axis = 1)
 
     #shuffle the dataframe
@@ -177,7 +177,7 @@ def process_unknown_data_domain(df):
     return df
 
 
-def prep_domain_data(discovery_results, max_rows):
+def _prep_domain_data(discovery_results, max_rows):
     &#39;&#39;&#39;
     Return the One-Hot Encoded version of the train and test split dataframes for the following featureset of the domain certificate data:
         - &#39;suspicious-chars&#39;
@@ -188,8 +188,8 @@ def prep_domain_data(discovery_results, max_rows):
         - &#39;issuer-country-count&#39;
     &#39;&#39;&#39;
     feature_set = {&#39;suspicious-chars&#39;, &#39;domain-length&#39;, &#39;issuer-name&#39;, &#39;issuer-country&#39;, &#39;cert-duration&#39;, &#39;issuer-country-count&#39;}
-    X = process_input_data_domain(max_rows)
-    X_unknown = process_unknown_data_domain(discovery_results)
+    X = _process_input_data_domain(max_rows)
+    X_unknown = _process_unknown_data_domain(discovery_results)
 
     ohe = OneHotEncoder(sparse=False, handle_unknown=&#39;ignore&#39;)
    
@@ -213,7 +213,7 @@ def prep_domain_data(discovery_results, max_rows):
 
     return X_train_encoded, y_train, X_val_encoded, y_val, X_unknown_encoded
 
-def recall(actual_tags, predictions, class_of_interest):
+def _recall(actual_tags, predictions, class_of_interest):
     &#39;&#39;&#39;
     Calculates the recall for a specific class, given the ground truth and predicted values.
     &#39;&#39;&#39;
@@ -223,7 +223,7 @@ def recall(actual_tags, predictions, class_of_interest):
             total_found += 1
     return total_found / np.count_nonzero(actual_tags == class_of_interest)
 
-def precision(actual_tags, predictions, class_of_interest):
+def _precision(actual_tags, predictions, class_of_interest):
     &#39;&#39;&#39;
     Calculates the precision for a specific class, given the ground truth and predicted values.
     &#39;&#39;&#39;
@@ -233,7 +233,7 @@ def precision(actual_tags, predictions, class_of_interest):
             total_found += 1
     return total_found / np.count_nonzero(predictions == class_of_interest)
 
-def accuracy(actual_tags, predictions):
+def _accuracy(actual_tags, predictions):
     &#39;&#39;&#39;
     Calculates the average number of correct predictions.
         - actual_tags: The ground truth
@@ -245,14 +245,14 @@ def accuracy(actual_tags, predictions):
             total_found += 1
     return total_found / len(predictions)
 
-def train_lr(X_train, y_train):
+def _train_lr(X_train, y_train):
     &#39;&#39;&#39;
     Returns a Logistic Regression classifier trained based on provided data.
     &#39;&#39;&#39;
     clf_lr = LogisticRegression(solver=&#39;lbfgs&#39;, max_iter=1000, random_state=1).fit(X_train, y_train)
     return clf_lr
 
-def train_mlp(X_train, y_train):
+def _train_mlp(X_train, y_train):
     &#39;&#39;&#39;
     Returns a Multi-Layer Perceptron classifier trained based on provided data
     &#39;&#39;&#39;
@@ -261,14 +261,14 @@ def train_mlp(X_train, y_train):
 
     return clf_mlp
 
-def evaluate(model, X_val, y_val):
+def _evaluate(model, X_val, y_val):
     &#39;&#39;&#39;
     Returns model&#39;s accuracy, precision, and recall for class 1 (Malicious) data.
     &#39;&#39;&#39;
     predictions = model.predict(X_val)
-    return accuracy(y_val, predictions), precision(y_val, predictions, 1), recall(y_val, predictions, 1)
+    return _accuracy(y_val, predictions), _precision(y_val, predictions, 1), _recall(y_val, predictions, 1)
 
-def is_benign(row):
+def _is_benign(row):
     &#39;&#39;&#39;
     Returns string representation for 1 (Malicious) and 0 (Benign) classes
     &#39;&#39;&#39;
@@ -302,12 +302,12 @@ def evaluation(discovery_results, max_rows = 100000):
         discovery_results = pd.read_csv(pjoin(dirname(__file__), &#34;data/test_data/netflix_test.csv&#34;))
     
     for i in tqdm(range(1)):
-        X_train, y_train, X_val, y_val, X_unknown = prep_domain_data(discovery_results, max_rows)
-    mlp_model = train_mlp(X_train, y_train)
+        X_train, y_train, X_val, y_val, X_unknown = _prep_domain_data(discovery_results, max_rows)
+    mlp_model = _train_mlp(X_train, y_train)
 
 
-    train_accuracy, train_prec, train_recall = evaluate(mlp_model, X_train, y_train)
-    test_accuracy, test_prec, test_recall = evaluate(mlp_model, X_val, y_val)
+    train_accuracy, train_prec, train_recall = _evaluate(mlp_model, X_train, y_train)
+    test_accuracy, test_prec, test_recall = _evaluate(mlp_model, X_val, y_val)
     
     print(&#34;Accuracy for training data:&#34;, train_accuracy)
     print(&#34;Precision for training data:&#34;, train_prec)
@@ -318,9 +318,9 @@ def evaluation(discovery_results, max_rows = 100000):
     
     predictions = mlp_model.predict(X_unknown)
     
-    unknown_df = process_unknown_data_domain(discovery_results)
+    unknown_df = _process_unknown_data_domain(discovery_results)
     unknown_df[&#39;prediction&#39;] = predictions
-    unknown_df[&#39;prediction&#39;] = unknown_df.apply(lambda row: is_benign(row[&#39;prediction&#39;]), axis = 1)
+    unknown_df[&#39;prediction&#39;] = unknown_df.apply(lambda row: _is_benign(row[&#39;prediction&#39;]), axis = 1)
 
     print(unknown_df.head(10))
 
@@ -338,47 +338,6 @@ def evaluation(discovery_results, max_rows = 100000):
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="phishfinder.evaluation.evaluation.accuracy"><code class="name flex">
-<span>def <span class="ident">accuracy</span></span>(<span>actual_tags, predictions)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Calculates the average number of correct predictions.
-- actual_tags: The ground truth
-- predictions: What the model predicts</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def accuracy(actual_tags, predictions):
-    &#39;&#39;&#39;
-    Calculates the average number of correct predictions.
-        - actual_tags: The ground truth
-        - predictions: What the model predicts
-    &#39;&#39;&#39;
-    total_found = 0
-    for i in range(len(actual_tags)):
-        if (actual_tags[i] == predictions[i]):
-            total_found += 1
-    return total_found / len(predictions)</code></pre>
-</details>
-</dd>
-<dt id="phishfinder.evaluation.evaluation.evaluate"><code class="name flex">
-<span>def <span class="ident">evaluate</span></span>(<span>model, X_val, y_val)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns model's accuracy, precision, and recall for class 1 (Malicious) data.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def evaluate(model, X_val, y_val):
-    &#39;&#39;&#39;
-    Returns model&#39;s accuracy, precision, and recall for class 1 (Malicious) data.
-    &#39;&#39;&#39;
-    predictions = model.predict(X_val)
-    return accuracy(y_val, predictions), precision(y_val, predictions, 1), recall(y_val, predictions, 1)</code></pre>
-</details>
-</dd>
 <dt id="phishfinder.evaluation.evaluation.evaluation"><code class="name flex">
 <span>def <span class="ident">evaluation</span></span>(<span>discovery_results, max_rows=100000)</span>
 </code></dt>
@@ -429,12 +388,12 @@ possible phishing domain and their classfication as benign or malicious.</dd>
         discovery_results = pd.read_csv(pjoin(dirname(__file__), &#34;data/test_data/netflix_test.csv&#34;))
     
     for i in tqdm(range(1)):
-        X_train, y_train, X_val, y_val, X_unknown = prep_domain_data(discovery_results, max_rows)
-    mlp_model = train_mlp(X_train, y_train)
+        X_train, y_train, X_val, y_val, X_unknown = _prep_domain_data(discovery_results, max_rows)
+    mlp_model = _train_mlp(X_train, y_train)
 
 
-    train_accuracy, train_prec, train_recall = evaluate(mlp_model, X_train, y_train)
-    test_accuracy, test_prec, test_recall = evaluate(mlp_model, X_val, y_val)
+    train_accuracy, train_prec, train_recall = _evaluate(mlp_model, X_train, y_train)
+    test_accuracy, test_prec, test_recall = _evaluate(mlp_model, X_val, y_val)
     
     print(&#34;Accuracy for training data:&#34;, train_accuracy)
     print(&#34;Precision for training data:&#34;, train_prec)
@@ -445,285 +404,14 @@ possible phishing domain and their classfication as benign or malicious.</dd>
     
     predictions = mlp_model.predict(X_unknown)
     
-    unknown_df = process_unknown_data_domain(discovery_results)
+    unknown_df = _process_unknown_data_domain(discovery_results)
     unknown_df[&#39;prediction&#39;] = predictions
-    unknown_df[&#39;prediction&#39;] = unknown_df.apply(lambda row: is_benign(row[&#39;prediction&#39;]), axis = 1)
+    unknown_df[&#39;prediction&#39;] = unknown_df.apply(lambda row: _is_benign(row[&#39;prediction&#39;]), axis = 1)
 
     print(unknown_df.head(10))
 
 
     return unknown_df</code></pre>
-</details>
-</dd>
-<dt id="phishfinder.evaluation.evaluation.is_benign"><code class="name flex">
-<span>def <span class="ident">is_benign</span></span>(<span>row)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns string representation for 1 (Malicious) and 0 (Benign) classes</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def is_benign(row):
-    &#39;&#39;&#39;
-    Returns string representation for 1 (Malicious) and 0 (Benign) classes
-    &#39;&#39;&#39;
-    if row == 1:
-        return &#39;malicious&#39;
-    else:
-        return &#39;benign&#39;</code></pre>
-</details>
-</dd>
-<dt id="phishfinder.evaluation.evaluation.is_ip"><code class="name flex">
-<span>def <span class="ident">is_ip</span></span>(<span>url)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Check if URL contains an IP address inside</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def is_ip(url):
-    &#39;&#39;&#39;
-    Check if URL contains an IP address inside
-    &#39;&#39;&#39;
-    s =  url.find(&#39;//&#39;)
-    if s != -1 and len(url) &gt;= s + 14:
-        url = url[s+2:s+14]
-    return 1 if url.replace(&#39;.&#39;, &#39;&#39;).isnumeric() else 0</code></pre>
-</details>
-</dd>
-<dt id="phishfinder.evaluation.evaluation.precision"><code class="name flex">
-<span>def <span class="ident">precision</span></span>(<span>actual_tags, predictions, class_of_interest)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Calculates the precision for a specific class, given the ground truth and predicted values.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def precision(actual_tags, predictions, class_of_interest):
-    &#39;&#39;&#39;
-    Calculates the precision for a specific class, given the ground truth and predicted values.
-    &#39;&#39;&#39;
-    total_found = 0
-    for i in range(len(actual_tags)):
-        if (actual_tags[i] == class_of_interest and actual_tags[i] == predictions[i]):
-            total_found += 1
-    return total_found / np.count_nonzero(predictions == class_of_interest)</code></pre>
-</details>
-</dd>
-<dt id="phishfinder.evaluation.evaluation.prep_domain_data"><code class="name flex">
-<span>def <span class="ident">prep_domain_data</span></span>(<span>discovery_results, max_rows)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Return the One-Hot Encoded version of the train and test split dataframes for the following featureset of the domain certificate data:
-- 'suspicious-chars'
-- 'domain-length'
-- 'issuer-name'
-- 'issuer-country'
-- 'cert-duration'
-- 'issuer-country-count'</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def prep_domain_data(discovery_results, max_rows):
-    &#39;&#39;&#39;
-    Return the One-Hot Encoded version of the train and test split dataframes for the following featureset of the domain certificate data:
-        - &#39;suspicious-chars&#39;
-        - &#39;domain-length&#39;
-        - &#39;issuer-name&#39;
-        - &#39;issuer-country&#39;
-        - &#39;cert-duration&#39;
-        - &#39;issuer-country-count&#39;
-    &#39;&#39;&#39;
-    feature_set = {&#39;suspicious-chars&#39;, &#39;domain-length&#39;, &#39;issuer-name&#39;, &#39;issuer-country&#39;, &#39;cert-duration&#39;, &#39;issuer-country-count&#39;}
-    X = process_input_data_domain(max_rows)
-    X_unknown = process_unknown_data_domain(discovery_results)
-
-    ohe = OneHotEncoder(sparse=False, handle_unknown=&#39;ignore&#39;)
-   
-    y = X.pop(&#39;phishing&#39;).values
-
-    X1 = X.groupby(&#39;domain-name&#39;)[&#39;issuer-country&#39;].nunique()  
-    X = X.join(X1, on=&#39;domain-name&#39;, rsuffix=&#39;-count&#39;)
-
-
-    X2 = X_unknown.groupby(&#39;domain-name&#39;)[&#39;issuer-country&#39;].nunique()
-    X_unknown = X_unknown.join(X2, on=&#39;domain-name&#39;, rsuffix=&#39;-count&#39;)
-    
-    X = X[feature_set].copy()
-    X_unknown = X_unknown[feature_set].copy()
-
-    X_train, X_val, y_train, y_val = train_test_split(X, y, test_size = 0.1, random_state=2)
-    ohe.fit(X_train)
-    X_train_encoded = ohe.transform(X_train)
-    X_val_encoded = ohe.transform(X_val)
-    X_unknown_encoded = ohe.transform(X_unknown)
-
-    return X_train_encoded, y_train, X_val_encoded, y_val, X_unknown_encoded</code></pre>
-</details>
-</dd>
-<dt id="phishfinder.evaluation.evaluation.process_input_data_domain"><code class="name flex">
-<span>def <span class="ident">process_input_data_domain</span></span>(<span>max_rows)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns the dataframe containing information about benign and malicious domains</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def process_input_data_domain(max_rows):
-    &#39;&#39;&#39;
-    Returns the dataframe containing information about benign and malicious domains
-    &#39;&#39;&#39;
-    df = pd.read_csv(pjoin(dirname(__file__), &#34;data/training_data/benign_certs.csv&#34;))
-    df[&#39;phishing&#39;] = df.apply(lambda row: 0, axis = 1)
-
-    df_malicious = pd.read_csv(pjoin(dirname(__file__), &#34;data/training_data/malicious_certs.csv&#34;))
-    df_malicious[&#39;phishing&#39;] = df_malicious.apply(lambda row: 1, axis = 1)
-
-    df = df.append(df_malicious, ignore_index = True)
-
-    df.dropna(inplace=True)
-    
-    df[&#39;suspicious-chars&#39;] = df.apply(lambda row: suspicious_characters(row[&#39;domain-name&#39;]), axis = 1)
-    df[&#39;domain-length&#39;] = df.apply(lambda row: len(row[&#39;domain-name&#39;]), axis = 1)
-
-    #shuffle the dataframe
-    df = df.sample(frac=1).reset_index(drop=True)
-    df = df.iloc[:max_rows, :]
-
-    return df</code></pre>
-</details>
-</dd>
-<dt id="phishfinder.evaluation.evaluation.process_unknown_data_domain"><code class="name flex">
-<span>def <span class="ident">process_unknown_data_domain</span></span>(<span>df)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns the dataframe retrieved by discovery module that needs to be classified.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def process_unknown_data_domain(df):
-    &#39;&#39;&#39;
-    Returns the dataframe retrieved by discovery module that needs to be classified.
-    &#39;&#39;&#39;
-    
-    df[&#39;suspicious-chars&#39;] = df.apply(lambda row: suspicious_characters(row[&#39;domain-name&#39;]), axis = 1)
-    df[&#39;domain-length&#39;] = df.apply(lambda row: len(row[&#39;domain-name&#39;]), axis = 1)
-
-    #shuffle the dataframe
-    #df = df.sample(frac=1).reset_index(drop=True)
-    df = df.iloc[:100, :]
-
-    return df</code></pre>
-</details>
-</dd>
-<dt id="phishfinder.evaluation.evaluation.recall"><code class="name flex">
-<span>def <span class="ident">recall</span></span>(<span>actual_tags, predictions, class_of_interest)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Calculates the recall for a specific class, given the ground truth and predicted values.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def recall(actual_tags, predictions, class_of_interest):
-    &#39;&#39;&#39;
-    Calculates the recall for a specific class, given the ground truth and predicted values.
-    &#39;&#39;&#39;
-    total_found = 0
-    for i in range(len(actual_tags)):
-        if (actual_tags[i] == class_of_interest and actual_tags[i] == predictions[i]):
-            total_found += 1
-    return total_found / np.count_nonzero(actual_tags == class_of_interest)</code></pre>
-</details>
-</dd>
-<dt id="phishfinder.evaluation.evaluation.redirects"><code class="name flex">
-<span>def <span class="ident">redirects</span></span>(<span>url)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Check if URL redirects you to another final URL</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def redirects(url):
-    &#39;&#39;&#39;
-    Check if URL redirects you to another final URL
-    &#39;&#39;&#39;
-    return False</code></pre>
-</details>
-</dd>
-<dt id="phishfinder.evaluation.evaluation.suspicious_characters"><code class="name flex">
-<span>def <span class="ident">suspicious_characters</span></span>(<span>url)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Check if domain name contains suspicious characters such as '@'</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def suspicious_characters(url):
-    &#39;&#39;&#39;
-    Check if domain name contains suspicious characters such as &#39;@&#39;
-    &#39;&#39;&#39;
-    return 1 if &#39;@&#39; in url else 0</code></pre>
-</details>
-</dd>
-<dt id="phishfinder.evaluation.evaluation.train_lr"><code class="name flex">
-<span>def <span class="ident">train_lr</span></span>(<span>X_train, y_train)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns a Logistic Regression classifier trained based on provided data.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def train_lr(X_train, y_train):
-    &#39;&#39;&#39;
-    Returns a Logistic Regression classifier trained based on provided data.
-    &#39;&#39;&#39;
-    clf_lr = LogisticRegression(solver=&#39;lbfgs&#39;, max_iter=1000, random_state=1).fit(X_train, y_train)
-    return clf_lr</code></pre>
-</details>
-</dd>
-<dt id="phishfinder.evaluation.evaluation.train_mlp"><code class="name flex">
-<span>def <span class="ident">train_mlp</span></span>(<span>X_train, y_train)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns a Multi-Layer Perceptron classifier trained based on provided data</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def train_mlp(X_train, y_train):
-    &#39;&#39;&#39;
-    Returns a Multi-Layer Perceptron classifier trained based on provided data
-    &#39;&#39;&#39;
-    clf_mlp = MLPClassifier(solver=&#39;lbfgs&#39;, alpha=1e-4, hidden_layer_sizes=(200, 200), random_state=5, max_iter=120, early_stopping=True, learning_rate_init=0.01, verbose=True, warm_start=True)
-    clf_mlp.fit(X_train, y_train)
-
-    return clf_mlp</code></pre>
-</details>
-</dd>
-<dt id="phishfinder.evaluation.evaluation.use_http"><code class="name flex">
-<span>def <span class="ident">use_http</span></span>(<span>url)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Check if http:// is used instead of https://</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def use_http(url):
-    &#39;&#39;&#39;
-    Check if http:// is used instead of https://
-    &#39;&#39;&#39;
-    return 1 if &#39;http://&#39; in url else 0</code></pre>
 </details>
 </dd>
 </dl>
@@ -747,21 +435,7 @@ possible phishing domain and their classfication as benign or malicious.</dd>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
-<li><code><a title="phishfinder.evaluation.evaluation.accuracy" href="#phishfinder.evaluation.evaluation.accuracy">accuracy</a></code></li>
-<li><code><a title="phishfinder.evaluation.evaluation.evaluate" href="#phishfinder.evaluation.evaluation.evaluate">evaluate</a></code></li>
 <li><code><a title="phishfinder.evaluation.evaluation.evaluation" href="#phishfinder.evaluation.evaluation.evaluation">evaluation</a></code></li>
-<li><code><a title="phishfinder.evaluation.evaluation.is_benign" href="#phishfinder.evaluation.evaluation.is_benign">is_benign</a></code></li>
-<li><code><a title="phishfinder.evaluation.evaluation.is_ip" href="#phishfinder.evaluation.evaluation.is_ip">is_ip</a></code></li>
-<li><code><a title="phishfinder.evaluation.evaluation.precision" href="#phishfinder.evaluation.evaluation.precision">precision</a></code></li>
-<li><code><a title="phishfinder.evaluation.evaluation.prep_domain_data" href="#phishfinder.evaluation.evaluation.prep_domain_data">prep_domain_data</a></code></li>
-<li><code><a title="phishfinder.evaluation.evaluation.process_input_data_domain" href="#phishfinder.evaluation.evaluation.process_input_data_domain">process_input_data_domain</a></code></li>
-<li><code><a title="phishfinder.evaluation.evaluation.process_unknown_data_domain" href="#phishfinder.evaluation.evaluation.process_unknown_data_domain">process_unknown_data_domain</a></code></li>
-<li><code><a title="phishfinder.evaluation.evaluation.recall" href="#phishfinder.evaluation.evaluation.recall">recall</a></code></li>
-<li><code><a title="phishfinder.evaluation.evaluation.redirects" href="#phishfinder.evaluation.evaluation.redirects">redirects</a></code></li>
-<li><code><a title="phishfinder.evaluation.evaluation.suspicious_characters" href="#phishfinder.evaluation.evaluation.suspicious_characters">suspicious_characters</a></code></li>
-<li><code><a title="phishfinder.evaluation.evaluation.train_lr" href="#phishfinder.evaluation.evaluation.train_lr">train_lr</a></code></li>
-<li><code><a title="phishfinder.evaluation.evaluation.train_mlp" href="#phishfinder.evaluation.evaluation.train_mlp">train_mlp</a></code></li>
-<li><code><a title="phishfinder.evaluation.evaluation.use_http" href="#phishfinder.evaluation.evaluation.use_http">use_http</a></code></li>
 </ul>
 </li>
 </ul>

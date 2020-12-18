@@ -19,9 +19,9 @@ Non-Public Functions
     For more information on these functions, click "Expand Source Code"
     below to view the docstrings in the source code.
 
-- `_create_batch_strings`: Creates a string of domains with less than
-    25k characters in length to allow for HTTProbe to be ran without
-    argument length issues.
+- `_create_batch_strings`: Creates a list of strings of domains separated by '\\n'.
+    Each string is less than 25k characters in length to allow for HTTProbe to run without
+    terminal argument length issues.
 """
 
 from subprocess import run, Popen, PIPE
