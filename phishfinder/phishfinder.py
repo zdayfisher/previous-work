@@ -163,6 +163,7 @@ def main():
 
     #Print results to a file (if path is provided), or to console
     if args.output_file:
+        print("Saving to the following output file", args.output_file)
         evaluation_results.to_csv(args.output_file)
     else:
         pd.set_option("display.max_rows", None, "display.max_columns", None)

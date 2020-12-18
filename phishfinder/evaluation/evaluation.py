@@ -195,7 +195,7 @@ def train_mlp(X_train, y_train):
     '''
     Returns a Multi-Layer Perceptron classifier trained based on provided data
     '''
-    clf_mlp = MLPClassifier(solver='lbfgs', alpha=1e-4, hidden_layer_sizes=(200, 200), random_state=5, max_iter=200, early_stopping=True, learning_rate_init=0.01, verbose=True, warm_start=True)
+    clf_mlp = MLPClassifier(solver='lbfgs', alpha=1e-4, hidden_layer_sizes=(200, 200), random_state=5, max_iter=120, early_stopping=True, learning_rate_init=0.01, verbose=True, warm_start=True)
     clf_mlp.fit(X_train, y_train)
 
     return clf_mlp
@@ -216,7 +216,7 @@ def is_benign(row):
     else:
         return 'benign'
 
-def evaluation(discovery_results, max_rows = 50000):
+def evaluation(discovery_results, max_rows = 100000):
     """
     Trains a machine learning model based on known benign and malicious
     domains. Evaluates the performance of the model. Uses the model to classify 
