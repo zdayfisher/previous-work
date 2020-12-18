@@ -57,7 +57,9 @@ Non-Public Functions
     of strings.
 &#34;&#34;&#34;
 import argparse
+import pandas as pd
 from .discovery import discovery
+from .evaluation import evaluation
 
 def _parse_list_file(path):
     &#34;&#34;&#34;
@@ -197,10 +199,18 @@ def main():
             ~discovery_results[&#39;domain-name&#39;].isin(legit_list)
         ]
 
-    # TODO: Run the evaluation module
+    # Run the evaluation module
+    evaluation_results = evaluation.evaluation(discovery_results)
 
-    # TODO: Print results to console, to file, etc. according to
-    #       Options selected by user.
+    #Print results to a file (if path is provided), or to console
+    if args.output_file:
+        print(&#34;Saving to the following output file&#34;, args.output_file)
+        evaluation_results.to_csv(args.output_file)
+    else:
+        pd.set_option(&#34;display.max_rows&#34;, None, &#34;display.max_columns&#34;, None)
+        print(evaluation_results[[&#39;originam-domain&#39;, &#39;domain-name&#39;, &#39;prediction&#39;]])
+
+
 
 
 if __name__ == &#39;__main__&#39;:
@@ -353,7 +363,18 @@ modules.</p></div>
 
         discovery_results = discovery_results[
             ~discovery_results[&#39;domain-name&#39;].isin(legit_list)
-        ]</code></pre>
+        ]
+
+    # Run the evaluation module
+    evaluation_results = evaluation.evaluation(discovery_results)
+
+    #Print results to a file (if path is provided), or to console
+    if args.output_file:
+        print(&#34;Saving to the following output file&#34;, args.output_file)
+        evaluation_results.to_csv(args.output_file)
+    else:
+        pd.set_option(&#34;display.max_rows&#34;, None, &#34;display.max_columns&#34;, None)
+        print(evaluation_results[[&#39;originam-domain&#39;, &#39;domain-name&#39;, &#39;prediction&#39;]])</code></pre>
 </details>
 </dd>
 </dl>
