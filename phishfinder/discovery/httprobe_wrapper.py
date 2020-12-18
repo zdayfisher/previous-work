@@ -55,14 +55,7 @@ def _create_batch_strings(domains):
     current_batch = []
     current_batch_char_length = 0
 
-    argument_limit = int(
-        run(
-            ['getconf', 'ARG_MAX'],
-            stdout=PIPE
-        ).stdout.decode('utf-8')
-    )
-
-    for domain in tqdm(domains, desc='Creating batches of domains', unit='domains'):
+    for domain in tqdm(domains, desc='Creating batches of domains for probing', unit='domains'):
         if len(domain) + current_batch_char_length < 25000:
             current_batch.append(domain)
             current_batch_char_length += len(domain)
