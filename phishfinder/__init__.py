@@ -4,6 +4,8 @@ PhishFinder is a command line tool which allows an individual
 or company to detect zero-day phishing websites attempting to
 compromise their customers and clients.
 
+This tool was created by Justin Matte and Olga Surzhok.
+
 ## Installation
 Since the tool was designed to run on a Linux environment
 with specific third-party tools (such as HTTProbe) that require
