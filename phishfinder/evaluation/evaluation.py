@@ -194,7 +194,7 @@ def train_mlp(X_train, y_train):
     '''
     Returns a Multi-Layer Perceptron classifier trained based on provided data
     '''
-    clf_mlp = MLPClassifier(solver='lbfgs', alpha=1e-4, hidden_layer_sizes=(150, 150), random_state=5, max_iter=200, learning_rate_init=0.01, warm_start=True)
+    clf_mlp = MLPClassifier(solver='lbfgs', alpha=1e-4, hidden_layer_sizes=(150, 150), random_state=5, max_iter=200, learning_rate_init=0.01, verbose=True, warm_start=True)
     clf_mlp.fit(X_train, y_train)
 
     return clf_mlp
