@@ -45,6 +45,7 @@ import datetime
 import pandas as pd
 import numpy as np
 import tldextract
+from tqdm import tqdm
 
 from os.path import dirname, join as pjoin
 
@@ -238,10 +239,12 @@ def evaluation(discovery_results, max_rows = 50000):
     """
     if discovery_results.empty:
         discovery_results = pd.read_csv(pjoin(dirname(__file__), "data/test_data/netflix_test.csv"))
-
-    X_train, y_train, X_val, y_val, X_unknown = prep_domain_data(discovery_results, max_rows)
-    mlp_model = train_mlp(X_train, y_train)
     
+    for i in tqdm(range(1)):
+        X_train, y_train, X_val, y_val, X_unknown = prep_domain_data(discovery_results, max_rows)
+    mlp_model = train_mlp(X_train, y_train)
+
+
     train_accuracy, train_prec, train_recall = evaluate(mlp_model, X_train, y_train)
     test_accuracy, test_prec, test_recall = evaluate(mlp_model, X_val, y_val)
     
