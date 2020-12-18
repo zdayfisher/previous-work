@@ -15,9 +15,9 @@ HTTPs services on a given domain.
 Non-Public Functions
 --------------------
 
-.. note:: Non-public functions are not part of this API
-    documentation. More information about these functions
-    can be found in the source code in the functions' docstrings.
+.. note:: Non-public functions are not part of this API documentation.
+    For more information on these functions, click "Expand Source Code"
+    below to view the docstrings in the source code.
 
 - `_create_batch_strings`: Creates a string of domains with less than
     25k characters in length to allow for HTTProbe to be ran without

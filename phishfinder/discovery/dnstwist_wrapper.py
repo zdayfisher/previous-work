@@ -20,8 +20,8 @@ Non-Public Functions
 --------------------
 
 .. note:: Non-public functions are not part of this API documentation.
-    More information about these functions can be found in the source code
-    in the form of docstrings.
+    For more information on these functions, click "Expand Source Code"
+    below to view the docstrings in the source code.
 
 - `_parse_tld_file`: Obtains the contents of a top-level domain dictionary file
     used during domain generaton.

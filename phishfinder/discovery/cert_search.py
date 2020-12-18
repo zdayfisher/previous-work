@@ -13,8 +13,8 @@ Non-Public Functions
 --------------------
 
 .. note:: Non-public functions are not part of this API documentation.
-    More information about these functions can be found in the source code
-    in the form of docstrings.
+    For more information on these functions, click "Expand Source Code"
+    below to view the docstrings in the source code.
 
 - `_issuer_regex`: Extracts certificate issuer's information from a crt.sh result.
 - `_search_from_list_of_dictionaries`: Integration function to allow DNSTwist results to
