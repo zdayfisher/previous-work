@@ -156,8 +156,7 @@ def main():
             ~discovery_results['domain-name'].isin(legit_list)
         ]
 
-    # TODO: Run the evaluation module
-
+    evaluation_results = evaluation.evaluation(discovery_results)
     # TODO: Print results to console, to file, etc. according to
     #       Options selected by user.
 

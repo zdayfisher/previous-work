@@ -45,7 +45,6 @@ import datetime
 import pandas as pd
 import numpy as np
 import tldextract
-import pickle
 
 from os.path import dirname, join as pjoin
 
@@ -101,12 +100,10 @@ def process_input_data_domain(max_rows):
 
     return df
 
-def process_unknown_data_domain():
+def process_unknown_data_domain(df):
     '''
     Returns the dataframe retrieved by discovery module that needs to be classified.
     '''
-    df = pd.read_csv(pjoin(dirname(__file__), "data/test_data/netflix_test.csv"))
-    print(df.head(10))
     
     df['suspicious-chars'] = df.apply(lambda row: suspicious_characters(row['domain-name']), axis = 1)
     df['domain-length'] = df.apply(lambda row: len(row['domain-name']), axis = 1)
@@ -116,8 +113,9 @@ def process_unknown_data_domain():
     df = df.iloc[:100, :]
 
     return df
-#Model Evaluation Metrics
-def prep_domain_data(max_rows):
+
+
+def prep_domain_data(discovery_results, max_rows):
     '''
     Return the One-Hot Encoded version of the train and test split dataframes for the following featureset of the domain certificate data:
         - 'suspicious-chars'
@@ -129,7 +127,7 @@ def prep_domain_data(max_rows):
     '''
     feature_set = {'suspicious-chars', 'domain-length', 'issuer-name', 'issuer-country', 'cert-duration', 'issuer-country-count'}
     X = process_input_data_domain(max_rows)
-    X_unknown = process_unknown_data_domain()
+    X_unknown = process_unknown_data_domain(discovery_results)
 
     ohe = OneHotEncoder(sparse=False, handle_unknown='ignore')
    
@@ -209,13 +207,39 @@ def evaluate(model, X_val, y_val):
     return accuracy(y_val, predictions), precision(y_val, predictions, 1), recall(y_val, predictions, 1)
 
 def is_benign(row):
+    '''
+    Returns string representation for 1 (Malicious) and 0 (Benign) classes
+    '''
     if row == 1:
         return 'malicious'
     else:
         return 'benign'
 
-def evaluation(file_name = '', benign_path = '', malicious_path = '', use_mlp = True, max_rows = 50000):
-    X_train, y_train, X_val, y_val, X_unknown = prep_domain_data(max_rows)
+def evaluation(discovery_results, max_rows = 50000):
+    """
+    Trains a machine learning model based on known benign and malicious
+    domains. Evaluates the performance of the model. Uses the model to classify 
+    previsouly unknown domains.
+
+    Parameters
+    ----------
+    discovery_results: pandas.DataFrame
+        Pandas DataFrame with information found about each generated
+        possible phishing domain.
+
+    max_rows: int
+        Maximum number of rows to be used for training the model.
+
+    Returns
+    -------
+    Returns: pandas.DataFrame
+        Returns a pandas DataFrame with information found about each generated
+        possible phishing domain and their classfication as benign or malicious.
+    """
+    if discovery_results == None:
+        discovery_results = pd.read_csv(pjoin(dirname(__file__), "data/test_data/netflix_test.csv"))
+
+    X_train, y_train, X_val, y_val, X_unknown = prep_domain_data(discovery_results, max_rows)
     mlp_model = train_mlp(X_train, y_train)
     
     train_accuracy, train_prec, train_recall = evaluate(mlp_model, X_train, y_train)
@@ -230,7 +254,7 @@ def evaluation(file_name = '', benign_path = '', malicious_path = '', use_mlp = 
     
     predictions = mlp_model.predict(X_unknown)
     
-    unknown_df = process_unknown_data_domain()
+    unknown_df = process_unknown_data_domain(discovery_results)
     unknown_df['prediction'] = predictions
     unknown_df['prediction'] = unknown_df.apply(lambda row: is_benign(row['prediction']), axis = 1)
 
@@ -240,4 +264,4 @@ def evaluation(file_name = '', benign_path = '', malicious_path = '', use_mlp = 
     return unknown_df
 
 if __name__ == '__main__':
-    evaluation()
+    evaluation(None)
