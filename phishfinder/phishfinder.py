@@ -1,6 +1,19 @@
 """
-Main module providing an entry point for the phishfinder 
-command line tool.
+Tool's main module.
+
+Purpose
+-------
+Provides an entry point for the phishfinder command line tool.
+
+Non-Public Functions
+--------------------
+
+.. note:: Non-public functions are not part of this API documentation.
+    For more information on these functions, click "Expand Source Code"
+    below to view the docstrings in the source code.
+
+- `_parse_list_file`: Parses files with lists of items into lists
+    of strings.
 """
 import argparse
 from .discovery import discovery
@@ -61,6 +74,20 @@ def main():
         default=None
     )
 
+    # Exclusion list input argument
+    parser.add_argument(
+        '-e',
+        '--exclude-domains',
+        dest='exclusions_path',
+        help=(
+            'Path to the file containing a list of domains '
+            'to exclude from evaluation.'
+            'File should contain one domain per line.'
+        ),
+        type=str,
+        default=None
+    )
+
     # Option to use the French TLD list
     parser.add_argument(
         '--tld-fr',
@@ -88,7 +115,7 @@ def main():
         '--tld-common',
         dest='common_tld',
         help=(
-            'Include the list of commonly abused top-level domains when '
+            'Include the list of common top-level domains when '
             'generating possible phishing domains.'
         ),
         action='store_true'
@@ -102,14 +129,6 @@ def main():
         help=(
             'Path of the output file. If none is provided, program outputs to console.'
         )
-    )
-
-    # Output format
-    parser.add_argument(
-        '-f',
-        '--format',
-        type=str,
-        choices=['csv', 'cli'], default='cli'
     )
 
     args = parser.parse_args()
@@ -129,7 +148,13 @@ def main():
         args.common_tld
     )
 
-    # TODO: filter out domain names listed in a whitelist
+    # Filter out domain names from the exclusion list
+    if args.exclusions_path:
+        legit_list = _parse_list_file(args.exclusions_path)
+
+        discovery_results = discovery_results[
+            ~discovery_results['domain-name'].isin(legit_list)
+        ]
 
     # TODO: Run the evaluation module
 
