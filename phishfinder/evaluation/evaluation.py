@@ -266,5 +266,5 @@ def evaluation(discovery_results, max_rows = 50000):
 
     return unknown_df
 
-if __name__ == '__main__':
-    evaluation(pd.DataFrame({'A' : []}))
+#if __name__ == '__main__':
+#    evaluation(pd.DataFrame({'A' : []}))

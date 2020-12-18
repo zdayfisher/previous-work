@@ -16,6 +16,7 @@ Non-Public Functions
     of strings.
 """
 import argparse
+import pandas as pd
 from .discovery import discovery
 from .evaluation import evaluation
 
@@ -157,9 +158,17 @@ def main():
             ~discovery_results['domain-name'].isin(legit_list)
         ]
 
+    # Run the evaluation module
     evaluation_results = evaluation.evaluation(discovery_results)
-    # TODO: Print results to console, to file, etc. according to
-    #       Options selected by user.
+
+    #Print results to a file (if path is provided), or to console
+    if args.output_file:
+        evaluation_results.to_csv(args.output_file)
+    else:
+        pd.set_option("display.max_rows", None, "display.max_columns", None)
+        print(evaluation_results)
+
+
 
 
 if __name__ == '__main__':
