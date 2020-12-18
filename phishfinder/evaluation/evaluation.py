@@ -236,7 +236,7 @@ def evaluation(discovery_results, max_rows = 50000):
         Returns a pandas DataFrame with information found about each generated
         possible phishing domain and their classfication as benign or malicious.
     """
-    if discovery_results == None:
+    if discovery_results.empty:
         discovery_results = pd.read_csv(pjoin(dirname(__file__), "data/test_data/netflix_test.csv"))
 
     X_train, y_train, X_val, y_val, X_unknown = prep_domain_data(discovery_results, max_rows)
@@ -264,4 +264,4 @@ def evaluation(discovery_results, max_rows = 50000):
     return unknown_df
 
 if __name__ == '__main__':
-    evaluation(None)
+    evaluation(pd.DataFrame({'A' : []}))
