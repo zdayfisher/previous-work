@@ -11,3 +11,5 @@ include phishfinder/evaluation/data/sanitized_lists/malicious.csv
 
 include phishfinder/evaluation/data/training_data/benign_certs.csv
 include phishfinder/evaluation/data/training_data/malicious_certs.csv
+
+include phishfinder/evaluation/data/bell_and_covid.csv
