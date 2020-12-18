@@ -17,6 +17,7 @@ Non-Public Functions
 """
 import argparse
 from .discovery import discovery
+from .evaluation import evaluation
 
 def _parse_list_file(path):
     """
