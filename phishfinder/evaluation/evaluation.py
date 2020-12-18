@@ -232,7 +232,7 @@ def evaluation(file_name = '', benign_path = '', malicious_path = '', use_mlp = 
     
     unknown_df = process_unknown_data_domain()
     unknown_df['prediction'] = predictions
-    unknown_df['prediction'] = unknown_df.apply(lambda row: is_benign(row), axis = 1)
+    unknown_df['prediction'] = unknown_df.apply(lambda row: is_benign(row['prediction']), axis = 1)
 
     print(unknown_df.head(10))
 
