@@ -69,13 +69,13 @@ def _search_from_list_of_dictionaries(list_of_dict):
                 dictionary['original-domain'],
                 drop_diplicates=False
             )
+            search_result_df['fuzzer'] = [dictionary['fuzzer'] for i in range(search_result_df.shape[0])]
+
+            result_dataframes.append(search_result_df)
+            
         except ConnectionError:
             print(f'Failed to retrieve certificates for {dictionary["domain-name"]}')
             pass
-
-        search_result_df['fuzzer'] = [dictionary['fuzzer'] for i in range(search_result_df.shape[0])]
-
-        result_dataframes.append(search_result_df)
     
     # Combine all result dataframes
     concat_df = pandas.concat(result_dataframes).drop_duplicates().reset_index(drop=True)
